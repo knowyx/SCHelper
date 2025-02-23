@@ -9,14 +9,16 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from resources.timetableWorker import read
 
+timetableDATA = read()
 
 class Ui_timetable(object):
     def setupUi(self, timetable):
         timetable.setObjectName("timetable")
         timetable.resize(915, 499)
-        timetable.setWindowIcon(QtGui.QIcon('icon.ico'))
         timetable.setMinimumSize(QtCore.QSize(640, 480))
+        timetable.setWindowIcon(QtGui.QIcon('icon.ico'))
         timetable.setBaseSize(QtCore.QSize(873, 497))
         timetable.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0             rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255))")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(timetable)
@@ -674,20 +676,6 @@ class Ui_timetable(object):
         self.D6lesson6.setObjectName("D6lesson6")
         self.day6Lessons.addWidget(self.D6lesson6)
         self.daysLine2.addLayout(self.day6Lessons, 1, 2, 1, 1)
-        self.day4Line2Name = QtWidgets.QLabel(timetable)
-        self.day4Line2Name.setMaximumSize(QtCore.QSize(16777215, 30))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.day4Line2Name.setFont(font)
-        self.day4Line2Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;\n"
-"")
-        self.day4Line2Name.setAlignment(QtCore.Qt.AlignCenter)
-        self.day4Line2Name.setObjectName("day4Line2Name")
-        self.daysLine2.addWidget(self.day4Line2Name, 0, 0, 1, 1)
         self.day5Line2Name = QtWidgets.QLabel(timetable)
         self.day5Line2Name.setMaximumSize(QtCore.QSize(16777215, 30))
         font = QtGui.QFont()
@@ -716,7 +704,44 @@ class Ui_timetable(object):
         self.day6Line2Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day6Line2Name.setObjectName("day6Line2Name")
         self.daysLine2.addWidget(self.day6Line2Name, 0, 2, 1, 1)
+        self.day4Line2Name = QtWidgets.QLabel(timetable)
+        self.day4Line2Name.setMaximumSize(QtCore.QSize(16777215, 30))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.day4Line2Name.setFont(font)
+        self.day4Line2Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
+"border: 0;\n"
+"margin: 0;\n"
+"border-radius: 5;\n"
+"color: white;\n"
+"")
+        self.day4Line2Name.setAlignment(QtCore.Qt.AlignCenter)
+        self.day4Line2Name.setObjectName("day4Line2Name")
+        self.daysLine2.addWidget(self.day4Line2Name, 0, 0, 1, 1)
         self.tableLayout.addLayout(self.daysLine2)
+        self.footer = QtWidgets.QHBoxLayout()
+        self.footer.setObjectName("footer")
+        self.warningText = QtWidgets.QLabel(timetable)
+        self.warningText.setStyleSheet("background-color: none;\n"
+"color: rgb(255, 255, 255);\n"
+"")
+        self.warningText.setObjectName("warningText")
+        self.footer.addWidget(self.warningText)
+        self.editButton = QtWidgets.QPushButton(timetable)
+        self.editButton.setMinimumSize(QtCore.QSize(0, 20))
+        self.editButton.setStyleSheet("QPushButton {\n"
+"    background-color: rgb(255, 133, 62);\n"
+"    border: 0;\n"
+"    margin: 0;\n"
+"    border-radius: 5;\n"
+"    color: white;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color:rgb(244, 81, 0);\n"
+"}")
+        self.editButton.setObjectName("editButton")
+        self.footer.addWidget(self.editButton)
+        self.tableLayout.addLayout(self.footer)
         self.verticalLayout_2.addLayout(self.tableLayout)
 
         self.retranslateUi(timetable)
@@ -726,48 +751,17 @@ class Ui_timetable(object):
         _translate = QtCore.QCoreApplication.translate
         timetable.setWindowTitle(_translate("timetable", "SCHelper — Расписание"))
         self.topName.setText(_translate("timetable", "Расписание"))
-        self.D2lesson1.setText(_translate("timetable", "урок1"))
-        self.D2lesson2.setText(_translate("timetable", "урок2"))
-        self.D2lesson3.setText(_translate("timetable", "урок3"))
-        self.D2lesson4.setText(_translate("timetable", "урок4"))
-        self.D2lesson5.setText(_translate("timetable", "урок5"))
-        self.D2lesson6.setText(_translate("timetable", "урок6"))
-        self.D3lesson1.setText(_translate("timetable", "урок1"))
-        self.D3lesson2.setText(_translate("timetable", "урок2"))
-        self.D3lesson3.setText(_translate("timetable", "урок3"))
-        self.D3lesson4.setText(_translate("timetable", "урок4"))
-        self.D3lesson5.setText(_translate("timetable", "урок5"))
-        self.D3lesson6.setText(_translate("timetable", "урок6"))
+        for x in range(1, 7):
+            for k in range(1, 7):
+                getattr(self, f"D{x}lesson{k}").setText(_translate("timetable", timetableDATA[f"D{x}"][f"lesson{k}"]))
         self.day1Line1Name.setText(_translate("timetable", "Понедельник"))
         self.day2Line1Name.setText(_translate("timetable", "Вторник"))
         self.day3Line1Name.setText(_translate("timetable", "Среда"))
-        self.D1lesson1.setText(_translate("timetable", "урок1"))
-        self.D1lesson2.setText(_translate("timetable", "урок2"))
-        self.D1lesson3.setText(_translate("timetable", "урок3"))
-        self.D1lesson4.setText(_translate("timetable", "урок4"))
-        self.D1lesson5.setText(_translate("timetable", "урок5"))
-        self.D1lesson6.setText(_translate("timetable", "урок6"))
-        self.D5lesson1.setText(_translate("timetable", "урок1"))
-        self.D5lesson2.setText(_translate("timetable", "урок2"))
-        self.D5lesson3.setText(_translate("timetable", "урок3"))
-        self.D5lesson4.setText(_translate("timetable", "урок4"))
-        self.D5lesson5.setText(_translate("timetable", "урок5"))
-        self.D5lesson6.setText(_translate("timetable", "урок6"))
-        self.D4lesson1.setText(_translate("timetable", "урок1"))
-        self.D4lesson2.setText(_translate("timetable", "урок2"))
-        self.D4lesson3.setText(_translate("timetable", "урок3"))
-        self.D4lesson4.setText(_translate("timetable", "урок4"))
-        self.D4lesson5.setText(_translate("timetable", "урок5"))
-        self.D4lesson6.setText(_translate("timetable", "урок6"))
-        self.D6lesson1.setText(_translate("timetable", "урок1"))
-        self.D6lesson2.setText(_translate("timetable", "урок2"))
-        self.D6lesson3.setText(_translate("timetable", "урок3"))
-        self.D6lesson4.setText(_translate("timetable", "урок4"))
-        self.D6lesson5.setText(_translate("timetable", "урок5"))
-        self.D6lesson6.setText(_translate("timetable", "урок6"))
-        self.day4Line2Name.setText(_translate("timetable", "Четверг"))
         self.day5Line2Name.setText(_translate("timetable", "Пятница"))
         self.day6Line2Name.setText(_translate("timetable", "Суббота"))
+        self.day4Line2Name.setText(_translate("timetable", "Четверг"))
+        self.warningText.setText(_translate("timetable", "Изминения вступят в силу после перезапуска окна расписания"))
+        self.editButton.setText(_translate("timetable", "Редактировать"))
 
 
 if __name__ == "__main__":

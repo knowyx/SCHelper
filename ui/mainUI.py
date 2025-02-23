@@ -385,7 +385,7 @@ class Ui_mainWindow(object):
         self.timetableButt.setText(_translate("mainWindow", "Расписание"))
         self.settingsButt.setText(_translate("mainWindow", "Настройки"))
         self.examButt.setText(_translate("mainWindow", "Подготовка к экзаменам"))
-        self.copyright.setText(_translate("mainWindow", "SCHelper beta 1.3 ©Конжин Н.А. 2025"))
+        self.copyright.setText(_translate("mainWindow", "SCHelper beta 1.4 ©Конжин Н.А. 2025"))
 
 
 if __name__ == "__main__":
