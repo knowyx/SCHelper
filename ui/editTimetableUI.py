@@ -1,10 +1,28 @@
 # -*- coding: utf-8 -*-
-from resources.timetableWorker import read, write
+from resources.jsonWorker import read, write
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QWidget
-
-
-timetableDATA = read()
+FILE = 'resources/timetable.json'
+timetableDATA = read(FILE)
+LESSONSSTYLESHEET = """
+            background-color:rgb(255, 166, 103);
+            border: 0;
+            margin: 0;
+            border-radius: 3;
+            color: black;
+            padding: 3;
+            border-style: solid;
+            border-width: 1.5px;
+            border-color: rgb(255, 133, 62);
+            font-size: 13px;
+        """
+DAYSLINESSTYLESHEET = """
+            background-color: rgb(255, 133, 62);
+            border: 0;
+            margin: 0;
+            border-radius: 5;
+            color: white;
+        """
 
 
 class Ui_editTimetable(object):
@@ -16,7 +34,7 @@ class Ui_editTimetable(object):
                 lessons[f"lesson{y}"] = getattr(self, f"D{x}lesson{y}").text()
             editedTimetableData[f"D{x}"] = lessons.copy()
             del lessons
-        write(editedTimetableData)
+        write(FILE, editedTimetableData)
         
 
     def setupUi(self, editTimetable):
@@ -36,8 +54,10 @@ class Ui_editTimetable(object):
         font.setPointSize(12)
         self.header.setFont(font)
         self.header.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.header.setStyleSheet("color: rgb(0, 0, 0);\n"
-"background-color: none;")
+        self.header.setStyleSheet("""
+            color: rgb(0, 0, 0);
+            background-color: none;
+        """)
         self.header.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.header.setObjectName("header")
         self.verticalLayout.addWidget(self.header)
@@ -48,11 +68,7 @@ class Ui_editTimetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day1Line1Name.setFont(font)
-        self.day1Line1Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;")
+        self.day1Line1Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day1Line1Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day1Line1Name.setObjectName("day1Line1Name")
         self.daysLine1Names.addWidget(self.day1Line1Name)
@@ -61,11 +77,7 @@ class Ui_editTimetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day3Line1Name.setFont(font)
-        self.day3Line1Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;")
+        self.day3Line1Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day3Line1Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day3Line1Name.setObjectName("day3Line1Name")
         self.daysLine1Names.addWidget(self.day3Line1Name)
@@ -74,11 +86,7 @@ class Ui_editTimetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day2Line1Name.setFont(font)
-        self.day2Line1Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;")
+        self.day2Line1Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day2Line1Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day2Line1Name.setObjectName("day2Line1Name")
         self.daysLine1Names.addWidget(self.day2Line1Name)
@@ -93,16 +101,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D1lesson1.sizePolicy().hasHeightForWidth())
         self.D1lesson1.setSizePolicy(sizePolicy)
-        self.D1lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D1lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson1.setObjectName("D1lesson1")
         self.day1Lessons.addWidget(self.D1lesson1)
         self.D1lesson2 = QtWidgets.QLineEdit(editTimetable)
@@ -111,16 +110,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D1lesson2.sizePolicy().hasHeightForWidth())
         self.D1lesson2.setSizePolicy(sizePolicy)
-        self.D1lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D1lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson2.setObjectName("D1lesson2")
         self.day1Lessons.addWidget(self.D1lesson2)
         self.D1lesson3 = QtWidgets.QLineEdit(editTimetable)
@@ -129,16 +119,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D1lesson3.sizePolicy().hasHeightForWidth())
         self.D1lesson3.setSizePolicy(sizePolicy)
-        self.D1lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D1lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson3.setObjectName("D1lesson3")
         self.day1Lessons.addWidget(self.D1lesson3)
         self.D1lesson4 = QtWidgets.QLineEdit(editTimetable)
@@ -147,16 +128,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D1lesson4.sizePolicy().hasHeightForWidth())
         self.D1lesson4.setSizePolicy(sizePolicy)
-        self.D1lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D1lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson4.setObjectName("D1lesson4")
         self.day1Lessons.addWidget(self.D1lesson4)
         self.D1lesson5 = QtWidgets.QLineEdit(editTimetable)
@@ -165,17 +137,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D1lesson5.sizePolicy().hasHeightForWidth())
         self.D1lesson5.setSizePolicy(sizePolicy)
-        self.D1lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;\n"
-"")
+        self.D1lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson5.setObjectName("D1lesson5")
         self.day1Lessons.addWidget(self.D1lesson5)
         self.D1lesson6 = QtWidgets.QLineEdit(editTimetable)
@@ -184,16 +146,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D1lesson6.sizePolicy().hasHeightForWidth())
         self.D1lesson6.setSizePolicy(sizePolicy)
-        self.D1lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D1lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson6.setObjectName("D1lesson6")
         self.day1Lessons.addWidget(self.D1lesson6)
         self.daysLine1.addLayout(self.day1Lessons)
@@ -205,16 +158,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D2lesson1.sizePolicy().hasHeightForWidth())
         self.D2lesson1.setSizePolicy(sizePolicy)
-        self.D2lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D2lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson1.setObjectName("D2lesson1")
         self.day2Lessons.addWidget(self.D2lesson1)
         self.D2lesson2 = QtWidgets.QLineEdit(editTimetable)
@@ -223,16 +167,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D2lesson2.sizePolicy().hasHeightForWidth())
         self.D2lesson2.setSizePolicy(sizePolicy)
-        self.D2lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D2lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson2.setObjectName("D2lesson2")
         self.day2Lessons.addWidget(self.D2lesson2)
         self.D2lesson3 = QtWidgets.QLineEdit(editTimetable)
@@ -241,16 +176,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D2lesson3.sizePolicy().hasHeightForWidth())
         self.D2lesson3.setSizePolicy(sizePolicy)
-        self.D2lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D2lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson3.setObjectName("D2lesson3")
         self.day2Lessons.addWidget(self.D2lesson3)
         self.D2lesson4 = QtWidgets.QLineEdit(editTimetable)
@@ -259,16 +185,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D2lesson4.sizePolicy().hasHeightForWidth())
         self.D2lesson4.setSizePolicy(sizePolicy)
-        self.D2lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D2lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson4.setObjectName("D2lesson4")
         self.day2Lessons.addWidget(self.D2lesson4)
         self.D2lesson5 = QtWidgets.QLineEdit(editTimetable)
@@ -277,16 +194,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D2lesson5.sizePolicy().hasHeightForWidth())
         self.D2lesson5.setSizePolicy(sizePolicy)
-        self.D2lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D2lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson5.setObjectName("D2lesson5")
         self.day2Lessons.addWidget(self.D2lesson5)
         self.D2lesson6 = QtWidgets.QLineEdit(editTimetable)
@@ -295,16 +203,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D2lesson6.sizePolicy().hasHeightForWidth())
         self.D2lesson6.setSizePolicy(sizePolicy)
-        self.D2lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D2lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson6.setObjectName("D2lesson6")
         self.day2Lessons.addWidget(self.D2lesson6)
         self.daysLine1.addLayout(self.day2Lessons)
@@ -316,16 +215,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D3lesson1.sizePolicy().hasHeightForWidth())
         self.D3lesson1.setSizePolicy(sizePolicy)
-        self.D3lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D3lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson1.setObjectName("D3lesson1")
         self.day3Lessons.addWidget(self.D3lesson1)
         self.D3lesson2 = QtWidgets.QLineEdit(editTimetable)
@@ -334,16 +224,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D3lesson2.sizePolicy().hasHeightForWidth())
         self.D3lesson2.setSizePolicy(sizePolicy)
-        self.D3lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D3lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson2.setObjectName("D3lesson2")
         self.day3Lessons.addWidget(self.D3lesson2)
         self.D3lesson3 = QtWidgets.QLineEdit(editTimetable)
@@ -352,16 +233,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D3lesson3.sizePolicy().hasHeightForWidth())
         self.D3lesson3.setSizePolicy(sizePolicy)
-        self.D3lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D3lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson3.setObjectName("D3lesson3")
         self.day3Lessons.addWidget(self.D3lesson3)
         self.D3lesson4 = QtWidgets.QLineEdit(editTimetable)
@@ -370,16 +242,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D3lesson4.sizePolicy().hasHeightForWidth())
         self.D3lesson4.setSizePolicy(sizePolicy)
-        self.D3lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D3lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson4.setObjectName("D3lesson4")
         self.day3Lessons.addWidget(self.D3lesson4)
         self.D3lesson5 = QtWidgets.QLineEdit(editTimetable)
@@ -388,16 +251,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D3lesson5.sizePolicy().hasHeightForWidth())
         self.D3lesson5.setSizePolicy(sizePolicy)
-        self.D3lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D3lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson5.setObjectName("D3lesson5")
         self.day3Lessons.addWidget(self.D3lesson5)
         self.D3lesson6 = QtWidgets.QLineEdit(editTimetable)
@@ -406,16 +260,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D3lesson6.sizePolicy().hasHeightForWidth())
         self.D3lesson6.setSizePolicy(sizePolicy)
-        self.D3lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D3lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson6.setObjectName("D3lesson6")
         self.day3Lessons.addWidget(self.D3lesson6)
         self.daysLine1.addLayout(self.day3Lessons)
@@ -427,11 +272,7 @@ class Ui_editTimetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day5Line2Name.setFont(font)
-        self.day5Line2Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;")
+        self.day5Line2Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day5Line2Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day5Line2Name.setObjectName("day5Line2Name")
         self.daysLine2Names.addWidget(self.day5Line2Name)
@@ -440,11 +281,7 @@ class Ui_editTimetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day6Line2Name.setFont(font)
-        self.day6Line2Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;")
+        self.day6Line2Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day6Line2Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day6Line2Name.setObjectName("day6Line2Name")
         self.daysLine2Names.addWidget(self.day6Line2Name)
@@ -453,11 +290,7 @@ class Ui_editTimetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day4Line2Name.setFont(font)
-        self.day4Line2Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;")
+        self.day4Line2Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day4Line2Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day4Line2Name.setObjectName("day4Line2Name")
         self.daysLine2Names.addWidget(self.day4Line2Name)
@@ -472,16 +305,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D4lesson1.sizePolicy().hasHeightForWidth())
         self.D4lesson1.setSizePolicy(sizePolicy)
-        self.D4lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D4lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson1.setObjectName("D4lesson1")
         self.day4Lessons.addWidget(self.D4lesson1)
         self.D4lesson2 = QtWidgets.QLineEdit(editTimetable)
@@ -490,16 +314,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D4lesson2.sizePolicy().hasHeightForWidth())
         self.D4lesson2.setSizePolicy(sizePolicy)
-        self.D4lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D4lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson2.setObjectName("D4lesson2")
         self.day4Lessons.addWidget(self.D4lesson2)
         self.D4lesson3 = QtWidgets.QLineEdit(editTimetable)
@@ -508,16 +323,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D4lesson3.sizePolicy().hasHeightForWidth())
         self.D4lesson3.setSizePolicy(sizePolicy)
-        self.D4lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D4lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson3.setObjectName("D4lesson3")
         self.day4Lessons.addWidget(self.D4lesson3)
         self.D4lesson4 = QtWidgets.QLineEdit(editTimetable)
@@ -526,16 +332,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D4lesson4.sizePolicy().hasHeightForWidth())
         self.D4lesson4.setSizePolicy(sizePolicy)
-        self.D4lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D4lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson4.setObjectName("D4lesson4")
         self.day4Lessons.addWidget(self.D4lesson4)
         self.D4lesson5 = QtWidgets.QLineEdit(editTimetable)
@@ -544,16 +341,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D4lesson5.sizePolicy().hasHeightForWidth())
         self.D4lesson5.setSizePolicy(sizePolicy)
-        self.D4lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D4lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson5.setObjectName("D4lesson5")
         self.day4Lessons.addWidget(self.D4lesson5)
         self.D4lesson6 = QtWidgets.QLineEdit(editTimetable)
@@ -562,16 +350,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D4lesson6.sizePolicy().hasHeightForWidth())
         self.D4lesson6.setSizePolicy(sizePolicy)
-        self.D4lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D4lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson6.setObjectName("D4lesson6")
         self.day4Lessons.addWidget(self.D4lesson6)
         self.daysLine2.addLayout(self.day4Lessons)
@@ -583,16 +362,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D5lesson1.sizePolicy().hasHeightForWidth())
         self.D5lesson1.setSizePolicy(sizePolicy)
-        self.D5lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D5lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson1.setObjectName("D5lesson1")
         self.day5Lessons.addWidget(self.D5lesson1)
         self.D5lesson2 = QtWidgets.QLineEdit(editTimetable)
@@ -601,16 +371,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D5lesson2.sizePolicy().hasHeightForWidth())
         self.D5lesson2.setSizePolicy(sizePolicy)
-        self.D5lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D5lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson2.setObjectName("D5lesson2")
         self.day5Lessons.addWidget(self.D5lesson2)
         self.D5lesson3 = QtWidgets.QLineEdit(editTimetable)
@@ -619,16 +380,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D5lesson3.sizePolicy().hasHeightForWidth())
         self.D5lesson3.setSizePolicy(sizePolicy)
-        self.D5lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D5lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson3.setObjectName("D5lesson3")
         self.day5Lessons.addWidget(self.D5lesson3)
         self.D5lesson4 = QtWidgets.QLineEdit(editTimetable)
@@ -637,16 +389,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D5lesson4.sizePolicy().hasHeightForWidth())
         self.D5lesson4.setSizePolicy(sizePolicy)
-        self.D5lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D5lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson4.setObjectName("D5lesson4")
         self.day5Lessons.addWidget(self.D5lesson4)
         self.D5lesson5 = QtWidgets.QLineEdit(editTimetable)
@@ -655,16 +398,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D5lesson5.sizePolicy().hasHeightForWidth())
         self.D5lesson5.setSizePolicy(sizePolicy)
-        self.D5lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D5lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson5.setObjectName("D5lesson5")
         self.day5Lessons.addWidget(self.D5lesson5)
         self.D5lesson6 = QtWidgets.QLineEdit(editTimetable)
@@ -673,16 +407,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D5lesson6.sizePolicy().hasHeightForWidth())
         self.D5lesson6.setSizePolicy(sizePolicy)
-        self.D5lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D5lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson6.setObjectName("D5lesson6")
         self.day5Lessons.addWidget(self.D5lesson6)
         self.daysLine2.addLayout(self.day5Lessons)
@@ -694,16 +419,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D6lesson1.sizePolicy().hasHeightForWidth())
         self.D6lesson1.setSizePolicy(sizePolicy)
-        self.D6lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D6lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson1.setObjectName("D6lesson1")
         self.day6Lessons.addWidget(self.D6lesson1)
         self.D6lesson2 = QtWidgets.QLineEdit(editTimetable)
@@ -712,16 +428,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D6lesson2.sizePolicy().hasHeightForWidth())
         self.D6lesson2.setSizePolicy(sizePolicy)
-        self.D6lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D6lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson2.setObjectName("D6lesson2")
         self.day6Lessons.addWidget(self.D6lesson2)
         self.D6lesson3 = QtWidgets.QLineEdit(editTimetable)
@@ -730,16 +437,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D6lesson3.sizePolicy().hasHeightForWidth())
         self.D6lesson3.setSizePolicy(sizePolicy)
-        self.D6lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D6lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson3.setObjectName("D6lesson3")
         self.day6Lessons.addWidget(self.D6lesson3)
         self.D6lesson4 = QtWidgets.QLineEdit(editTimetable)
@@ -748,16 +446,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D6lesson4.sizePolicy().hasHeightForWidth())
         self.D6lesson4.setSizePolicy(sizePolicy)
-        self.D6lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D6lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson4.setObjectName("D6lesson4")
         self.day6Lessons.addWidget(self.D6lesson4)
         self.D6lesson5 = QtWidgets.QLineEdit(editTimetable)
@@ -766,16 +455,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D6lesson5.sizePolicy().hasHeightForWidth())
         self.D6lesson5.setSizePolicy(sizePolicy)
-        self.D6lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D6lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson5.setObjectName("D6lesson5")
         self.day6Lessons.addWidget(self.D6lesson5)
         self.D6lesson6 = QtWidgets.QLineEdit(editTimetable)
@@ -784,16 +464,7 @@ class Ui_editTimetable(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.D6lesson6.sizePolicy().hasHeightForWidth())
         self.D6lesson6.setSizePolicy(sizePolicy)
-        self.D6lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"font-size: 13px;")
+        self.D6lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson6.setObjectName("D6lesson6")
         self.day6Lessons.addWidget(self.D6lesson6)
         self.daysLine2.addLayout(self.day6Lessons)
@@ -801,9 +472,11 @@ class Ui_editTimetable(object):
         self.footer = QtWidgets.QHBoxLayout()
         self.footer.setObjectName("footer")
         self.footerInfo = QtWidgets.QLabel(editTimetable)
-        self.footerInfo.setStyleSheet("background-color: none;\n"
-"color: rgb(255, 255, 255);\n"
-"font-size: 12px;")
+        self.footerInfo.setStyleSheet("""
+            background-color: none;
+            color: rgb(255, 255, 255);
+            font-size: 12px;
+        """)
         self.footerInfo.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.footerInfo.setObjectName("footerInfo")
         self.footer.addWidget(self.footerInfo)
@@ -813,25 +486,27 @@ class Ui_editTimetable(object):
         font = QtGui.QFont()
         font.setPointSize(8)
         self.saveButton.setFont(font)
-        self.saveButton.setStyleSheet("QPushButton {\n"
-"   background-color: rgb(255, 133, 62);\n"
-"    border: 0;\n"
-"    margin: 0;\n"
-"    border-radius: 5;\n"
-"    color: white;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color:rgb(244, 81, 0);\n"
-"}")
+        self.saveButton.setStyleSheet("""
+            QPushButton {
+                background-color: rgb(255, 133, 62);
+                border: 0;
+                margin: 0;
+                border-radius: 5;
+                color: white;
+            }
+            QPushButton:hover {
+                background-color:rgb(244, 81, 0);
+            }
+        """)
         self.saveButton.setObjectName("saveButton")
         self.footer.addWidget(self.saveButton)
         self.verticalLayout.addLayout(self.footer)
-
         self.retranslateUi(editTimetable)
         QtCore.QMetaObject.connectSlotsByName(editTimetable)
 
+
     def retranslateUi(self, editTimetable):
-        timetableDATA = read()
+        timetableDATA = read(FILE)
         _translate = QtCore.QCoreApplication.translate
         editTimetable.setWindowTitle(_translate("editTimetable", "SCHelper — Редактировать расписание"))
         self.header.setText(_translate("editTimetable", "Редактировать рассписание"))

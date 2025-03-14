@@ -1,6 +1,19 @@
 # -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from ui.timetableUI import Ui_timetable
+from ui.crontabUI import Ui_crontab
+BUTTONSTYLESHEET = """
+            QPushButton {
+                background-color: rgb(255, 133, 62);
+                border: 0;
+                margin: 0;
+                border-radius: 5;
+                color: white;
+            }
+            QPushButton:hover {
+                background-color:rgb(244, 81, 0);
+            }
+        """
 
 
 class timetableWindow(QtWidgets.QWidget):
@@ -10,12 +23,24 @@ class timetableWindow(QtWidgets.QWidget):
         self.ui.setupUi(self)
 
 
+class cronWindow(QtWidgets.QWidget):
+    def __init__(self):
+        super(cronWindow, self).__init__()
+        self.ui = Ui_crontab()
+        self.ui.setupUi(self)
+
+
 class Ui_mainWindow(object):
     def button_clicked(self, info):
         if info == 'Расписание':
             global timetableW
             timetableW = timetableWindow()
             timetableW.show()
+        elif info == 'Планировщик задач':
+            global crontabW
+            crontabW = cronWindow()
+            crontabW.show()
+
 
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
@@ -50,9 +75,10 @@ class Ui_mainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.name.setFont(font)
-        self.name.setStyleSheet("background-color: none;\n"
-"color: rgb(0, 0, 0);\n"
-"")
+        self.name.setStyleSheet("""
+            background-color: none;
+            color: rgb(0, 0, 0);
+        """)
         self.name.setAlignment(QtCore.Qt.AlignCenter)
         self.name.setObjectName("name")
         self.logoNameLayout.addWidget(self.name)
@@ -120,16 +146,7 @@ class Ui_mainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.corntabButt.setFont(font)
-        self.corntabButt.setStyleSheet("QPushButton {\n"
-"    background-color: rgb(255, 133, 62);\n"
-"    border: 0;\n"
-"    margin: 0;\n"
-"    border-radius: 5;\n"
-"    color: white;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color:rgb(244, 81, 0);\n"
-"}")
+        self.corntabButt.setStyleSheet(BUTTONSTYLESHEET)
         self.corntabButt.setObjectName("corntabButt")
         self.windowGrid.addWidget(self.corntabButt, 5, 0, 1, 1)
         self.timetableButt = QtWidgets.QPushButton(mainWindow)
@@ -200,16 +217,7 @@ class Ui_mainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.timetableButt.setFont(font)
-        self.timetableButt.setStyleSheet("QPushButton {\n"
-"    background-color: rgb(255, 133, 62);\n"
-"    border: 0;\n"
-"    margin: 0;\n"
-"    border-radius: 5;\n"
-"    color: white;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color:rgb(244, 81, 0);\n"
-"}")
+        self.timetableButt.setStyleSheet(BUTTONSTYLESHEET)
         self.timetableButt.setObjectName("timetableButt")
         self.windowGrid.addWidget(self.timetableButt, 4, 0, 1, 1)
         self.settingsButt = QtWidgets.QPushButton(mainWindow)
@@ -276,16 +284,7 @@ class Ui_mainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.settingsButt.setFont(font)
-        self.settingsButt.setStyleSheet("QPushButton {\n"
-"    background-color: rgb(255, 133, 62);\n"
-"    border: 0;\n"
-"    margin: 0;\n"
-"    border-radius: 5;\n"
-"    color: white;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color:rgb(244, 81, 0);\n"
-"}")
+        self.settingsButt.setStyleSheet(BUTTONSTYLESHEET)
         self.settingsButt.setObjectName("settingsButt")
         self.windowGrid.addWidget(self.settingsButt, 7, 0, 1, 1)
         self.examButt = QtWidgets.QPushButton(mainWindow)
@@ -351,16 +350,7 @@ class Ui_mainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.examButt.setFont(font)
-        self.examButt.setStyleSheet("QPushButton {\n"
-"    background-color: rgb(255, 133, 62);\n"
-"    border: 0;\n"
-"    margin: 0;\n"
-"    border-radius: 5;\n"
-"    color: white;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color:rgb(244, 81, 0);\n"
-"}")
+        self.examButt.setStyleSheet(BUTTONSTYLESHEET)
         self.examButt.setObjectName("examButt")
         self.windowGrid.addWidget(self.examButt, 6, 0, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 50, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
@@ -368,15 +358,16 @@ class Ui_mainWindow(object):
         self.verticalLayout.addLayout(self.windowGrid)
         self.copyright = QtWidgets.QLabel(mainWindow)
         self.copyright.setMaximumSize(QtCore.QSize(16777215, 15))
-        self.copyright.setStyleSheet("background-color: none;\n"
-"color: rgb(0, 0, 0);\n"
-"")
+        self.copyright.setStyleSheet("""
+            background-color: none;
+            color: rgb(0, 0, 0);
+        """)
         self.copyright.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing)
         self.copyright.setObjectName("copyright")
         self.verticalLayout.addWidget(self.copyright)
-
         self.retranslateUi(mainWindow)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
+
 
     def retranslateUi(self, mainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -386,5 +377,4 @@ class Ui_mainWindow(object):
         self.timetableButt.setText(_translate("mainWindow", "Расписание"))
         self.settingsButt.setText(_translate("mainWindow", "Настройки"))
         self.examButt.setText(_translate("mainWindow", "Подготовка к экзаменам"))
-        self.copyright.setText(_translate("mainWindow", "SCHelper beta 1.5 ©Конжин Н.А. 2025"))
-
+        self.copyright.setText(_translate("mainWindow", "SCHelper beta 2.0 ©Конжин Н.А. 2025"))

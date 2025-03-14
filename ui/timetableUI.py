@@ -1,7 +1,28 @@
 # -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtGui, QtWidgets
-from resources.timetableWorker import read
+from resources.jsonWorker import read
 from ui.editTimetableUI import Ui_editTimetable
+FILE = 'resources/timetable.json'
+timetableDATA = read(FILE)
+LESSONSSTYLESHEET = """
+            background-color:rgb(255, 166, 103);
+            border: 0;
+            margin: 0;
+            border-radius: 3;
+            color: black;
+            padding: 3;
+            border-style: solid;
+            border-width: 1.5px;
+            border-color: rgb(255, 133, 62);
+            font-size: 13px;
+        """
+DAYSLINESSTYLESHEET = """
+            background-color: rgb(255, 133, 62);
+            border: 0;
+            margin: 0;
+            border-radius: 5;
+            color: white;
+        """
 
 
 class editTimetable(QtWidgets.QWidget):
@@ -10,9 +31,6 @@ class editTimetable(QtWidgets.QWidget):
         self.ui = Ui_editTimetable()
         self.ui.setupUi(self)
    
-   
-timetableDATA = read()
-
 
 class Ui_timetable(object):
     def editClicked(self):
@@ -35,8 +53,10 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.topName.setFont(font)
-        self.topName.setStyleSheet("color: rgb(0, 0, 0);\n"
-"background-color: none;")
+        self.topName.setStyleSheet("""
+            color: rgb(0, 0, 0);
+            background-color: none;
+        """)
         self.topName.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.topName.setObjectName("topName")
         self.verticalLayout_2.addWidget(self.topName)
@@ -50,96 +70,42 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D2lesson1.setFont(font)
-        self.D2lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D2lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson1.setObjectName("D2lesson1")
         self.day2Lessons.addWidget(self.D2lesson1)
         self.D2lesson2 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D2lesson2.setFont(font)
-        self.D2lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D2lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson2.setObjectName("D2lesson2")
         self.day2Lessons.addWidget(self.D2lesson2)
         self.D2lesson3 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D2lesson3.setFont(font)
-        self.D2lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D2lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson3.setObjectName("D2lesson3")
         self.day2Lessons.addWidget(self.D2lesson3)
         self.D2lesson4 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D2lesson4.setFont(font)
-        self.D2lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D2lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson4.setObjectName("D2lesson4")
         self.day2Lessons.addWidget(self.D2lesson4)
         self.D2lesson5 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D2lesson5.setFont(font)
-        self.D2lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D2lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson5.setObjectName("D2lesson5")
         self.day2Lessons.addWidget(self.D2lesson5)
         self.D2lesson6 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D2lesson6.setFont(font)
-        self.D2lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D2lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D2lesson6.setObjectName("D2lesson6")
         self.day2Lessons.addWidget(self.D2lesson6)
         self.daysLine1.addLayout(self.day2Lessons, 1, 1, 1, 1)
@@ -149,96 +115,42 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D3lesson1.setFont(font)
-        self.D3lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D3lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson1.setObjectName("D3lesson1")
         self.day3Lessons.addWidget(self.D3lesson1)
         self.D3lesson2 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D3lesson2.setFont(font)
-        self.D3lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D3lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson2.setObjectName("D3lesson2")
         self.day3Lessons.addWidget(self.D3lesson2)
         self.D3lesson3 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D3lesson3.setFont(font)
-        self.D3lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D3lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson3.setObjectName("D3lesson3")
         self.day3Lessons.addWidget(self.D3lesson3)
         self.D3lesson4 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D3lesson4.setFont(font)
-        self.D3lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D3lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson4.setObjectName("D3lesson4")
         self.day3Lessons.addWidget(self.D3lesson4)
         self.D3lesson5 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D3lesson5.setFont(font)
-        self.D3lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D3lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson5.setObjectName("D3lesson5")
         self.day3Lessons.addWidget(self.D3lesson5)
         self.D3lesson6 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D3lesson6.setFont(font)
-        self.D3lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D3lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D3lesson6.setObjectName("D3lesson6")
         self.day3Lessons.addWidget(self.D3lesson6)
         self.daysLine1.addLayout(self.day3Lessons, 1, 2, 1, 1)
@@ -247,12 +159,7 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day1Line1Name.setFont(font)
-        self.day1Line1Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;\n"
-"")
+        self.day1Line1Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day1Line1Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day1Line1Name.setObjectName("day1Line1Name")
         self.daysLine1.addWidget(self.day1Line1Name, 0, 0, 1, 1)
@@ -261,12 +168,7 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day2Line1Name.setFont(font)
-        self.day2Line1Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;\n"
-"")
+        self.day2Line1Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day2Line1Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day2Line1Name.setObjectName("day2Line1Name")
         self.daysLine1.addWidget(self.day2Line1Name, 0, 1, 1, 1)
@@ -275,12 +177,7 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day3Line1Name.setFont(font)
-        self.day3Line1Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;\n"
-"")
+        self.day3Line1Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day3Line1Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day3Line1Name.setObjectName("day3Line1Name")
         self.daysLine1.addWidget(self.day3Line1Name, 0, 2, 1, 1)
@@ -290,95 +187,42 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D1lesson1.setFont(font)
-        self.D1lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);")
+        self.D1lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson1.setObjectName("D1lesson1")
         self.day1Lessons.addWidget(self.D1lesson1)
         self.D1lesson2 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D1lesson2.setFont(font)
-        self.D1lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D1lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson2.setObjectName("D1lesson2")
         self.day1Lessons.addWidget(self.D1lesson2)
         self.D1lesson3 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D1lesson3.setFont(font)
-        self.D1lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D1lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson3.setObjectName("D1lesson3")
         self.day1Lessons.addWidget(self.D1lesson3)
         self.D1lesson4 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D1lesson4.setFont(font)
-        self.D1lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D1lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson4.setObjectName("D1lesson4")
         self.day1Lessons.addWidget(self.D1lesson4)
         self.D1lesson5 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D1lesson5.setFont(font)
-        self.D1lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D1lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson5.setObjectName("D1lesson5")
         self.day1Lessons.addWidget(self.D1lesson5)
         self.D1lesson6 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D1lesson6.setFont(font)
-        self.D1lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D1lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D1lesson6.setObjectName("D1lesson6")
         self.day1Lessons.addWidget(self.D1lesson6)
         self.daysLine1.addLayout(self.day1Lessons, 1, 0, 1, 1)
@@ -391,80 +235,35 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D5lesson1.setFont(font)
-        self.D5lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D5lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson1.setObjectName("D5lesson1")
         self.day5Lessons.addWidget(self.D5lesson1)
         self.D5lesson2 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D5lesson2.setFont(font)
-        self.D5lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D5lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson2.setObjectName("D5lesson2")
         self.day5Lessons.addWidget(self.D5lesson2)
         self.D5lesson3 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D5lesson3.setFont(font)
-        self.D5lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D5lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson3.setObjectName("D5lesson3")
         self.day5Lessons.addWidget(self.D5lesson3)
         self.D5lesson4 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D5lesson4.setFont(font)
-        self.D5lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D5lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson4.setObjectName("D5lesson4")
         self.day5Lessons.addWidget(self.D5lesson4)
         self.D5lesson5 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D5lesson5.setFont(font)
-        self.D5lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D5lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson5.setObjectName("D5lesson5")
         self.day5Lessons.addWidget(self.D5lesson5)
         self.D5lesson6 = QtWidgets.QLabel(timetable)
@@ -472,16 +271,7 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D5lesson6.setFont(font)
-        self.D5lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D5lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D5lesson6.setObjectName("D5lesson6")
         self.day5Lessons.addWidget(self.D5lesson6)
         self.daysLine2.addLayout(self.day5Lessons, 1, 1, 1, 1)
@@ -491,96 +281,42 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D4lesson1.setFont(font)
-        self.D4lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D4lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson1.setObjectName("D4lesson1")
         self.day4Lessons.addWidget(self.D4lesson1)
         self.D4lesson2 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D4lesson2.setFont(font)
-        self.D4lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D4lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson2.setObjectName("D4lesson2")
         self.day4Lessons.addWidget(self.D4lesson2)
         self.D4lesson3 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D4lesson3.setFont(font)
-        self.D4lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D4lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson3.setObjectName("D4lesson3")
         self.day4Lessons.addWidget(self.D4lesson3)
         self.D4lesson4 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D4lesson4.setFont(font)
-        self.D4lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D4lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson4.setObjectName("D4lesson4")
         self.day4Lessons.addWidget(self.D4lesson4)
         self.D4lesson5 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D4lesson5.setFont(font)
-        self.D4lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D4lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson5.setObjectName("D4lesson5")
         self.day4Lessons.addWidget(self.D4lesson5)
         self.D4lesson6 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D4lesson6.setFont(font)
-        self.D4lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D4lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D4lesson6.setObjectName("D4lesson6")
         self.day4Lessons.addWidget(self.D4lesson6)
         self.daysLine2.addLayout(self.day4Lessons, 1, 0, 1, 1)
@@ -590,96 +326,42 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D6lesson1.setFont(font)
-        self.D6lesson1.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D6lesson1.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson1.setObjectName("D6lesson1")
         self.day6Lessons.addWidget(self.D6lesson1)
         self.D6lesson2 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D6lesson2.setFont(font)
-        self.D6lesson2.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D6lesson2.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson2.setObjectName("D6lesson2")
         self.day6Lessons.addWidget(self.D6lesson2)
         self.D6lesson3 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D6lesson3.setFont(font)
-        self.D6lesson3.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D6lesson3.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson3.setObjectName("D6lesson3")
         self.day6Lessons.addWidget(self.D6lesson3)
         self.D6lesson4 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D6lesson4.setFont(font)
-        self.D6lesson4.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D6lesson4.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson4.setObjectName("D6lesson4")
         self.day6Lessons.addWidget(self.D6lesson4)
         self.D6lesson5 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D6lesson5.setFont(font)
-        self.D6lesson5.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D6lesson5.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson5.setObjectName("D6lesson5")
         self.day6Lessons.addWidget(self.D6lesson5)
         self.D6lesson6 = QtWidgets.QLabel(timetable)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.D6lesson6.setFont(font)
-        self.D6lesson6.setStyleSheet("background-color:rgb(255, 166, 103);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 3;\n"
-"color: black;\n"
-"padding: 3;\n"
-"border-style: solid;\n"
-"border-width: 1.5px;\n"
-"border-color: rgb(255, 133, 62);\n"
-"")
+        self.D6lesson6.setStyleSheet(LESSONSSTYLESHEET)
         self.D6lesson6.setObjectName("D6lesson6")
         self.day6Lessons.addWidget(self.D6lesson6)
         self.daysLine2.addLayout(self.day6Lessons, 1, 2, 1, 1)
@@ -688,12 +370,7 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day5Line2Name.setFont(font)
-        self.day5Line2Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;\n"
-"")
+        self.day5Line2Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day5Line2Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day5Line2Name.setObjectName("day5Line2Name")
         self.daysLine2.addWidget(self.day5Line2Name, 0, 1, 1, 1)
@@ -702,12 +379,7 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day6Line2Name.setFont(font)
-        self.day6Line2Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;\n"
-"")
+        self.day6Line2Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day6Line2Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day6Line2Name.setObjectName("day6Line2Name")
         self.daysLine2.addWidget(self.day6Line2Name, 0, 2, 1, 1)
@@ -716,12 +388,7 @@ class Ui_timetable(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.day4Line2Name.setFont(font)
-        self.day4Line2Name.setStyleSheet("background-color: rgb(255, 133, 62);\n"
-"border: 0;\n"
-"margin: 0;\n"
-"border-radius: 5;\n"
-"color: white;\n"
-"")
+        self.day4Line2Name.setStyleSheet(DAYSLINESSTYLESHEET)
         self.day4Line2Name.setAlignment(QtCore.Qt.AlignCenter)
         self.day4Line2Name.setObjectName("day4Line2Name")
         self.daysLine2.addWidget(self.day4Line2Name, 0, 0, 1, 1)
@@ -732,37 +399,42 @@ class Ui_timetable(object):
         self.editButton.clicked.connect(lambda: self.editClicked())
         font.setPointSize(12)
         self.editButton.setMinimumSize(QtCore.QSize(0, 20))
-        self.editButton.setStyleSheet("QPushButton {\n"
-"    background-color: rgb(255, 133, 62);\n"
-"    border: 0;\n"
-"    margin: 0;\n"
-"    border-radius: 5;\n"
-"    color: white;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color:rgb(244, 81, 0);\n"
-"}")
+        self.editButton.setStyleSheet("""
+            QPushButton {
+                background-color: rgb(255, 133, 62);
+                border: 0;
+                margin: 0;
+                border-radius: 5;
+                color: white;
+            }
+            QPushButton:hover {
+                background-color:rgb(244, 81, 0);
+            }      
+        """)
         self.editButton.setObjectName("editButton")
         self.updateButton = QtWidgets.QPushButton(timetable)
         self.updateButton.clicked.connect(lambda: self.update())
         font.setPointSize(12)
         self.updateButton.setMinimumSize(QtCore.QSize(0, 20))
-        self.updateButton.setStyleSheet("QPushButton {\n"
-"    background-color: rgb(255, 133, 62);\n"
-"    border: 0;\n"
-"    margin: 0;\n"
-"    border-radius: 5;\n"
-"    color: white;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color:rgb(244, 81, 0);\n"
-"}")
+        self.updateButton.setStyleSheet("""
+            QPushButton {
+                background-color: rgb(255, 133, 62);
+                border: 0;
+                margin: 0;
+                border-radius: 5;
+                color: white;
+            }
+            QPushButton:hover {
+                background-color:rgb(244, 81, 0);
+            }
+        """)
         self.footer.addWidget(self.updateButton)
         self.footer.addWidget(self.editButton)
         self.tableLayout.addLayout(self.footer)
         self.verticalLayout_2.addLayout(self.tableLayout)
         self.retranslateUi(timetable)
         QtCore.QMetaObject.connectSlotsByName(timetable)
+
 
     def retranslateUi(self, timetable):
         _translate = QtCore.QCoreApplication.translate
@@ -780,8 +452,9 @@ class Ui_timetable(object):
         self.editButton.setText(_translate("timetable", "Редактировать"))
         self.updateButton.setText(_translate("timetable", "Обновить"))
 
+
     def update(self):
-        newTimetableDATA = read()
+        newTimetableDATA = read(FILE)
         for x in range(1, 7):
             for k in range(1, 7):
                 getattr(self, f"D{x}lesson{k}").setText(newTimetableDATA[f"D{x}"][f"lesson{k}"])
