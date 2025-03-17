@@ -1,45 +1,48 @@
 # -*- coding: utf-8 -*-
 from PyQt5 import QtCore, QtGui, QtWidgets
-from resources.jsonWorker import read
+from resources.jsonWorker import read, writeAdd, elementDeletion
 FILE = 'resources/tasks.json'
 tasksDATA = read(FILE)
 
 
 def blockCreation(parent, index, taskData):
-        taskGroup = QtWidgets.QGroupBox(parent)
-        taskGroup.setStyleSheet("""
-            background-color:rgb(255, 166, 103);
-            padding: 3;
-            border-style: solid;
-            border-width: 1.5px;
-            border-color: rgb(255, 133, 62);
-            font-size: 13px;
-        """)
-        taskGroup.setMaximumSize(QtCore.QSize(16777215, 100))
-        taskGroup.setTitle("")
-        taskGroup.setObjectName(f"task{index}")
-        gridLayout = QtWidgets.QGridLayout(taskGroup)
-        gridLayout.setObjectName(f"gridLayout{index}")
-        taskDelete = QtWidgets.QPushButton(taskGroup)
-        taskDelete.setMaximumSize(QtCore.QSize(70, 72))
-        font = QtGui.QFont()
-        taskDelete.setFont(font)
-        taskDelete.setText("")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("resources/DELETE_ICON.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        taskDelete.setIcon(icon)
-        taskDelete.setIconSize(QtCore.QSize(70, 70))
-        taskDelete.setObjectName(f"taskDelete{index}")
-        gridLayout.addWidget(taskDelete, 1, 2, 2, 1)
-        taskName = QtWidgets.QLabel(taskGroup)
-        taskName.setObjectName(f"taskName{index}")
-        taskName.setText(taskData['name'])
-        gridLayout.addWidget(taskName, 1, 0, 1, 1)
-        taskDate = QtWidgets.QLabel(taskGroup)
-        taskDate.setObjectName(f"taskDate{index}")
-        taskDate.setText(taskData['date'])
-        gridLayout.addWidget(taskDate, 2, 0, 1, 1)
-        return taskGroup, taskDelete
+        
+    taskGroup = QtWidgets.QGroupBox(parent)
+    taskGroup.setStyleSheet("""
+        background-color:rgb(255, 166, 103);
+        padding: 3;
+        border-style: solid;
+        border-width: 1.5px;
+        border-color: rgb(255, 133, 62);
+        font-size: 13px;
+        color: black;
+    """)
+    taskGroup.setMaximumSize(QtCore.QSize(16777215, 100))
+    taskGroup.setTitle("")
+    taskGroup.setObjectName(f"task{index}")
+    gridLayout = QtWidgets.QGridLayout(taskGroup)
+    gridLayout.setObjectName(f"gridLayout{index}")
+    taskDelete = QtWidgets.QPushButton(taskGroup)
+    taskDelete.setMaximumSize(QtCore.QSize(70, 72))
+    font = QtGui.QFont()
+    taskDelete.setFont(font)
+    taskDelete.setText("")
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("resources/DELETE_ICON.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+    taskDelete.setIcon(icon)
+    taskDelete.setIconSize(QtCore.QSize(70, 70))
+    taskDelete.setObjectName(f"taskDelete{index}")
+    taskDelete.clicked.connect(lambda: Ui_crontab.delete(taskGroup, index))
+    gridLayout.addWidget(taskDelete, 1, 2, 2, 1)
+    taskName = QtWidgets.QLabel(taskGroup)
+    taskName.setObjectName(f"taskName{index}")
+    taskName.setText(taskData['name'])
+    gridLayout.addWidget(taskName, 1, 0, 1, 1)
+    taskDate = QtWidgets.QLabel(taskGroup)
+    taskDate.setObjectName(f"taskDate{index}")
+    taskDate.setText(taskData['date'])
+    gridLayout.addWidget(taskDate, 2, 0, 1, 1)
+    return taskGroup, taskDelete
 
 
 class Ui_crontab(object):
@@ -85,23 +88,6 @@ class Ui_crontab(object):
         """)
         self.saveButton.setObjectName("saveButton")
         self.footerButtons.addWidget(self.saveButton)
-        self.updateButton = QtWidgets.QPushButton(crontab)
-        self.updateButton.setStyleSheet("""
-        QPushButton {
-            background-color: rgb(255, 133, 62);
-            border: 0;
-            margin: 0;
-            border-radius: 5;
-            color: white;
-            padding-top: 2px;
-            padding-bottom: 2px;
-        }
-        QPushButton:hover {
-            background-color:rgb(244, 81, 0);
-        }
-        """)
-        self.updateButton.setObjectName("updateButton")
-        self.footerButtons.addWidget(self.updateButton)
         self.gridLayout.addLayout(self.footerButtons, 9, 0, 1, 1)
         self.taskCreationInfoBox = QtWidgets.QHBoxLayout()
         self.taskCreationInfoBox.setObjectName("taskCreationInfoBox")
@@ -224,11 +210,11 @@ class Ui_crontab(object):
         }
         """)
         taskScroll.verticalScrollBar().setStyleSheet(taskScroll.styleSheet())
-        ############################## WIP use delete button
+        taskScroll.horizontalScrollBar().setStyleSheet(taskScroll.styleSheet())
         for i, taskData in enumerate(tasksDATA, start=1):
             taskBlock, deleteButton = blockCreation(taskContainer, i, taskData)
             taskLayout.addWidget(taskBlock)
-        ##############################
+            deleteButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
         self.cronLabel = QtWidgets.QLabel(crontab)
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -245,7 +231,8 @@ class Ui_crontab(object):
         """)
         self.cronLabel.setObjectName("cronLabel")
         self.gridLayout.addWidget(self.cronLabel, 0, 0, 1, 1)
-        self.updateButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
+        self.saveButton.clicked.connect(lambda: writeAdd(FILE, {"name": self.taskName.text(), "date": self.taskDate.text()}))
+        self.saveButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
         self.retranslateUi(crontab)
         QtCore.QMetaObject.connectSlotsByName(crontab)
 
@@ -255,7 +242,6 @@ class Ui_crontab(object):
         crontab.setWindowTitle(_translate("crontab", "SCHelper — Планировщик задач"))
         self.taskName.setPlaceholderText(_translate("crontab", "Название"))
         self.saveButton.setText(_translate("crontab", "Сохранить"))
-        self.updateButton.setText(_translate("crontab", "Обновить список"))
         self.newTaskLabel.setText(_translate("crontab", "Создать новую задачу"))
         self.taskDate.setPlaceholderText(_translate("crontab", "Дата"))
         self.cronLabel.setText(_translate("crontab", "Планировщик задач"))
@@ -263,6 +249,18 @@ class Ui_crontab(object):
 
     def update(self, taskContainer, taskLayout):
         tasksDATA = read(FILE)
+        while taskLayout.count():
+            item = taskLayout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
         for i, taskData in enumerate(tasksDATA, start=1):
             taskBlock, deleteButton = blockCreation(taskContainer, i, taskData)
             taskLayout.addWidget(taskBlock)
+            deleteButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
+
+
+    def delete(taskGroup, index):
+        elementDeletion(FILE, index)
+        taskGroup.setParent(None)
+        taskGroup.deleteLater()
