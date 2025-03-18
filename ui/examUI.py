@@ -149,11 +149,27 @@ class Ui_exam(object):
         self.status.setText('Не дан')
         self.ans = exercise['answer']
 
+    def isCorrect(self, num):
+        isDig = False
+        dotIn = False
+
+        for x in num:
+            if x.isdigit():
+                isDig = True
+            elif x == '.':
+                if dotIn:
+                    return False
+                dotIn = True
+            else:
+                return False
+
+        return isDig
+
     def check(self):
-        if self.giveAns.text().isdigit():
+        if self.isCorrect(self.giveAns.text()):
             if float(self.giveAns.text()) == self.ans:
                 self.status.setText("✅ Верно")
             else:
-                self.status.setText(f"❎ Неверно (правиильный ответ: {self.ans})")
+                self.status.setText(f"❎ Неверно или не дан ответ (правиильный ответ: {self.ans})")
         else:
-            self.status.setText("❎ Ошибка: ответ должен быть числом")
+            self.status.setText("❎ Ответ не дан или он должен быть числом (дробные числа вводятся через точку)")
