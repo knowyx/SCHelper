@@ -46,14 +46,14 @@ class examWindow(QtWidgets.QWidget):
 
 
 class aboutWindow(QtWidgets.QWidget):
-    def __init__(self):
+    def __init__(self, font):
         super(aboutWindow, self).__init__()
         self.ui = Ui_about()
-        self.ui.setupUi(self)
+        self.ui.setupUi(self, font)
 
 
 class Ui_mainWindow(object):
-    def button_clicked(self, info):
+    def button_clicked(self, info, font):
         if info == 'Расписание':
             global timetableW
             timetableW = timetableWindow()
@@ -68,13 +68,13 @@ class Ui_mainWindow(object):
             examW.show()
         elif info == 'Справка':
             global aboutW
-            aboutW = aboutWindow()
+            aboutW = aboutWindow(font)
             aboutW.show()
 
 
     def setupUi(self, mainWindow, mainFont):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(917, 499)
+        mainWindow.resize(1000, 500)
         mainWindow.setMinimumSize(QtCore.QSize(800, 600))
         mainWindow.setWindowIcon(QtGui.QIcon('icon.ico'))
         font = QtGui.QFont(mainFont, 10)
@@ -111,7 +111,7 @@ class Ui_mainWindow(object):
         self.corntabButt = QtWidgets.QPushButton(mainWindow)
         self.corntabButt.setMinimumSize(QtCore.QSize(150, 50))
         self.corntabButt.setMaximumSize(QtCore.QSize(16777215, 150))
-        self.corntabButt.clicked.connect(lambda: self.button_clicked(info = 'Планировщик задач'))
+        self.corntabButt.clicked.connect(lambda: self.button_clicked(info = 'Планировщик задач', font=mainFont))
         self.corntabButt.setStyleSheet(BUTTONSTYLESHEET)
         self.corntabButt.setObjectName("corntabButt")
         self.windowGrid.addWidget(self.corntabButt, 5, 0, 1, 1)
@@ -119,7 +119,7 @@ class Ui_mainWindow(object):
         self.timetableButt = QtWidgets.QPushButton(mainWindow)
         self.timetableButt.setMinimumSize(QtCore.QSize(150, 50))
         self.timetableButt.setMaximumSize(QtCore.QSize(16777215, 150))
-        self.timetableButt.clicked.connect(lambda: self.button_clicked(info = 'Расписание'))
+        self.timetableButt.clicked.connect(lambda: self.button_clicked(info = 'Расписание', font=mainFont))
         self.timetableButt.setStyleSheet(BUTTONSTYLESHEET)
         self.timetableButt.setObjectName("timetableButt")
         self.windowGrid.addWidget(self.timetableButt, 4, 0, 1, 1)
@@ -128,7 +128,7 @@ class Ui_mainWindow(object):
         self.aboutButt.setMinimumSize(QtCore.QSize(150, 50))
         self.aboutButt.setMaximumSize(QtCore.QSize(16777215, 150))
         self.aboutButt.setBaseSize(QtCore.QSize(873, 497))
-        self.aboutButt.clicked.connect(lambda: self.button_clicked(info = 'Справка'))
+        self.aboutButt.clicked.connect(lambda: self.button_clicked(info = 'Справка', font=mainFont))
         self.aboutButt.setStyleSheet(BUTTONSTYLESHEET)
         self.aboutButt.setObjectName("aboutButt")
         self.windowGrid.addWidget(self.aboutButt, 7, 0, 1, 1)
@@ -136,7 +136,7 @@ class Ui_mainWindow(object):
         self.examButt = QtWidgets.QPushButton(mainWindow)
         self.examButt.setMinimumSize(QtCore.QSize(150, 50))
         self.examButt.setMaximumSize(QtCore.QSize(16777215, 150))
-        self.examButt.clicked.connect(lambda: self.button_clicked(info = 'Подготовка к экзаменам'))
+        self.examButt.clicked.connect(lambda: self.button_clicked(info = 'Подготовка к экзаменам', font=mainFont))
         self.examButt.setStyleSheet(BUTTONSTYLESHEET)
         self.examButt.setObjectName("examButt")
         self.windowGrid.addWidget(self.examButt, 6, 0, 1, 1)
@@ -162,4 +162,4 @@ class Ui_mainWindow(object):
         self.timetableButt.setText(_translate("mainWindow", "Расписание"))
         self.aboutButt.setText(_translate("mainWindow", "Справка"))
         self.examButt.setText(_translate("mainWindow", "Подготовка к экзаменам"))
-        self.copyright.setText(_translate("mainWindow", "SCHelper 2.0 ©Конжин Н.А. 2025"))
+        self.copyright.setText(_translate("mainWindow", "SCHelper 2.1 ©Конжин Н.А. 2025"))
