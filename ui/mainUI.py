@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#импорт и константы
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 from ui.timetableUI import Ui_timetable
@@ -12,7 +13,6 @@ BUTTONSTYLESHEET = """
                 margin: 0;
                 border-radius: 5;
                 color: black;
-                font-weight: bold;
             }
             QPushButton:hover {
                 background-color:rgb(244, 81, 0);
@@ -21,10 +21,9 @@ BUTTONSTYLESHEET = """
 NAMEANDCOPYRIGHTSTYLESHEET = """
             background-color: none;
             color: black;
-            font-weight: bold;
         """
 
-
+#Определение классов окон
 class timetableWindow(QtWidgets.QWidget):
     def __init__(self):
         super(timetableWindow, self).__init__()
@@ -76,12 +75,15 @@ class Ui_mainWindow(object):
     def setupUi(self, mainWindow, mainFont):
         mainWindow.setObjectName("mainWindow")
         mainWindow.resize(917, 499)
-        mainWindow.setMinimumSize(QtCore.QSize(640, 480))
+        mainWindow.setMinimumSize(QtCore.QSize(800, 600))
         mainWindow.setWindowIcon(QtGui.QIcon('icon.ico'))
         font = QtGui.QFont(mainFont, 10)
         bigFont = QtGui.QFont(mainFont, 14)
+        font.setBold(True)
+        bigFont.setBold(True)
         mainWindow.setFont(bigFont)
-        mainWindow.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0             rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255))")
+        mainWindow.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0"
+                                 "             rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255))")
         self.verticalLayout = QtWidgets.QVBoxLayout(mainWindow)
         self.verticalLayout.setObjectName("verticalLayout")
         self.windowGrid = QtWidgets.QGridLayout()
@@ -143,7 +145,8 @@ class Ui_mainWindow(object):
         self.copyright = QtWidgets.QLabel(mainWindow)
         self.copyright.setMaximumSize(QtCore.QSize(16777215, 15))
         self.copyright.setStyleSheet(NAMEANDCOPYRIGHTSTYLESHEET)
-        self.copyright.setAlignment(QtCore.Qt.AlignmentFlag.AlignBottom|QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTrailing)
+        self.copyright.setAlignment(QtCore.Qt.AlignmentFlag.AlignBottom|QtCore.Qt.AlignmentFlag.AlignRight|
+                                    QtCore.Qt.AlignmentFlag.AlignTrailing)
         self.copyright.setObjectName("copyright")
         self.copyright.setFont(font)
         #/\работа с копирайтом
@@ -152,7 +155,8 @@ class Ui_mainWindow(object):
 
     def retranslateUi(self, mainWindow):
         _translate = QtCore.QCoreApplication.translate
-        mainWindow.setWindowTitle(_translate("mainWindow", "SCHelper — Универсальный помощник школьника"))
+        mainWindow.setWindowTitle(_translate("mainWindow", "SCHelper — Универсальный"
+                                                           " помощник школьника"))
         self.name.setText(_translate("mainWindow", "Универсальный помощник школьника"))
         self.corntabButt.setText(_translate("mainWindow", "Планировщик задач"))
         self.timetableButt.setText(_translate("mainWindow", "Расписание"))
