@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 from resources.jsonWorker import read
 from ui.editTimetableUI import Ui_editTimetable
 FILE = 'resources/timetable.json'

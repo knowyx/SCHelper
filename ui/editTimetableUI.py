@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from resources.jsonWorker import read, write
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QWidget
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import QWidget
 FILE = 'resources/timetable.json'
 timetableDATA = read(FILE)
 LESSONSSTYLESHEET = """

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 from resources.jsonWorker import read, writeAdd, elementDeletion
 FILE = 'resources/tasks.json'
 tasksDATA = read(FILE)
