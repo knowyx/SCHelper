@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from PyQt6 import QtCore, QtGui, QtWidgets
-from resources.jsonWorker import read, writeAdd, elementDeletion
-FILE = 'resources/tasks.json'
-tasksDATA = read(FILE)
+# from resources.jsonWorker import read, writeAdd, elementDeletion
+# FILE = 'resources/tasks.json'
+# tasksDATA = read(FILE)
 
 
 def blockCreation(parent, index, taskData):
@@ -211,30 +211,30 @@ class Ui_crontab(object):
         """)
         taskScroll.verticalScrollBar().setStyleSheet(taskScroll.styleSheet())
         taskScroll.horizontalScrollBar().setStyleSheet(taskScroll.styleSheet())
-        for i, taskData in enumerate(tasksDATA, start=1):
-            taskBlock, deleteButton = blockCreation(taskContainer, i, taskData)
-            taskLayout.addWidget(taskBlock)
-            deleteButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
-        self.cronLabel = QtWidgets.QLabel(crontab)
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.cronLabel.setFont(font)
-        self.cronLabel.setStyleSheet("""
-            background-color: rgb(255, 133, 62);
-            border: 0;
-            margin: 0;
-            border-radius: 5;
-            color: white;
-            padding-left: 5px;
-            padding-top: 2px;
-            padding-bottom: 2px;
-        """)
-        self.cronLabel.setObjectName("cronLabel")
-        self.gridLayout.addWidget(self.cronLabel, 0, 0, 1, 1)
-        self.saveButton.clicked.connect(lambda: writeAdd(FILE, {"name": self.taskName.text(), "date": self.taskDate.text()}))
-        self.saveButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
-        self.retranslateUi(crontab)
-        QtCore.QMetaObject.connectSlotsByName(crontab)
+        # for i, taskData in enumerate(tasksDATA, start=1):
+        #     taskBlock, deleteButton = blockCreation(taskContainer, i, taskData)
+        #     taskLayout.addWidget(taskBlock)
+        #     deleteButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
+        # self.cronLabel = QtWidgets.QLabel(crontab)
+        # font = QtGui.QFont()
+        # font.setPointSize(12)
+        # self.cronLabel.setFont(font)
+        # self.cronLabel.setStyleSheet("""
+        #     background-color: rgb(255, 133, 62);
+        #     border: 0;
+        #     margin: 0;
+        #     border-radius: 5;
+        #     color: white;
+        #     padding-left: 5px;
+        #     padding-top: 2px;
+        #     padding-bottom: 2px;
+        # """)
+        # self.cronLabel.setObjectName("cronLabel")
+        # self.gridLayout.addWidget(self.cronLabel, 0, 0, 1, 1)
+        # self.saveButton.clicked.connect(lambda: writeAdd(FILE, {"name": self.taskName.text(), "date": self.taskDate.text()}))
+        # self.saveButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
+        # self.retranslateUi(crontab)
+        # QtCore.QMetaObject.connectSlotsByName(crontab)
 
 
     def retranslateUi(self, crontab):
@@ -248,19 +248,19 @@ class Ui_crontab(object):
 
 
     def update(self, taskContainer, taskLayout):
-        tasksDATA = read(FILE)
+        # tasksDATA = read(FILE)
         while taskLayout.count():
             item = taskLayout.takeAt(0)
             widget = item.widget()
             if widget:
                 widget.deleteLater()
-        for i, taskData in enumerate(tasksDATA, start=1):
-            taskBlock, deleteButton = blockCreation(taskContainer, i, taskData)
-            taskLayout.addWidget(taskBlock)
-            deleteButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
+        # for i, taskData in enumerate(tasksDATA, start=1):
+        #     taskBlock, deleteButton = blockCreation(taskContainer, i, taskData)
+        #     taskLayout.addWidget(taskBlock)
+        #     deleteButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
 
 
     def delete(taskGroup, index):
-        elementDeletion(FILE, index)
+        # elementDeletion(FILE, index)
         taskGroup.setParent(None)
         taskGroup.deleteLater()

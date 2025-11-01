@@ -18,6 +18,20 @@ TOPBUTTONSSTYLE ="""
                 background-color:rgb(244, 81, 0);
             }
         """
+FILE = "resources/aboutText.txt"
+VERFILE = "resources/ver"
+
+
+def getText(file, verfile):
+    text = ''
+    with open(file) as f:
+        line = f.readline()
+        while line:
+            text += line
+            line = f.readline()
+    with open(verfile) as f:
+        ver = f.readline()
+    return text.format(ver=ver)
 
 
 class Ui_about(object):
@@ -150,19 +164,7 @@ class Ui_about(object):
         _translate = QtCore.QCoreApplication.translate
         about.setWindowTitle(_translate("about", "SCHelper — Справка"))
         self.aboutHeader.setText(_translate("about", "Справка"))
-        self.projectInfo.setText(_translate(
-            "about",
-            """
-Программа "SCHelper" 2.1 создана учеником Лицея №393 Кировского района
-города Сакнт-Петербурга и обучающимся образовательной программы
-"Яндекс.Лицей" Конжиным Никитой. Репозиторий программы доступен
-для свободного распостранения на GitHub. Приложение
-поставляется пользователю по лицензии GNU GPL V3.\n
-Логотип сгенерирован нееросетью.\n
-Иконка "Удалить" взята с сайта freeicons.io.\n
-Шрифт "Monserrat" взят с сайта fonts.google.com.
-            """
-        ))
+        self.projectInfo.setText(_translate("about", getText(FILE, VERFILE)))
         self.gitButton.setText(_translate("about", "GitHub"))
         self.lyceumWebButton.setText(_translate("about", "Сайт Лицея"))
         self.telegramButton.setText(_translate("about", "Автор в телеграм"))

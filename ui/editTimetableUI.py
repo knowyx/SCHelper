@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from resources.jsonWorker import read, write
+# from resources.jsonWorker import read, write
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QWidget
 FILE = 'resources/timetable.json'
-timetableDATA = read(FILE)
+# timetableDATA = read(FILE)
 LESSONSSTYLESHEET = """
             background-color:rgb(255, 166, 103);
             border: 0;
@@ -34,7 +34,7 @@ class Ui_editTimetable(object):
                 lessons[f"lesson{y}"] = getattr(self, f"D{x}lesson{y}").text()
             editedTimetableData[f"D{x}"] = lessons.copy()
             del lessons
-        write(FILE, editedTimetableData)
+        # write(FILE, editedTimetableData)
         
 
     def setupUi(self, editTimetable):
@@ -506,13 +506,13 @@ class Ui_editTimetable(object):
 
 
     def retranslateUi(self, editTimetable):
-        timetableDATA = read(FILE)
+        # timetableDATA = read(FILE)
         _translate = QtCore.QCoreApplication.translate
         editTimetable.setWindowTitle(_translate("editTimetable", "SCHelper — Редактировать расписание"))
         self.header.setText(_translate("editTimetable", "Редактировать рассписание"))
-        for x in range(1, 7):
-            for k in range(1, 7):
-                getattr(self, f"D{x}lesson{k}").setText(_translate("timetable", timetableDATA[f"D{x}"][f"lesson{k}"]))
+        # for x in range(1, 7):
+        #     for k in range(1, 7):
+        #         # getattr(self, f"D{x}lesson{k}").setText(_translate("timetable", timetableDATA[f"D{x}"][f"lesson{k}"]))
         self.day1Line1Name.setText(_translate("editTimetable", "Понедельник"))
         self.day3Line1Name.setText(_translate("editTimetable", "Вторник"))
         self.day2Line1Name.setText(_translate("editTimetable", "Среда"))

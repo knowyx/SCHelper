@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from PyQt6 import QtCore, QtGui, QtWidgets
-from resources.jsonWorker import read
+# from resources.jsonWorker import read
 from ui.editTimetableUI import Ui_editTimetable
-FILE = 'resources/timetable.json'
-timetableDATA = read(FILE)
+# FILE = 'resources/timetable.json'
+# timetableDATA = read(FILE)
 LESSONSSTYLESHEET = """
             background-color:rgb(255, 166, 103);
             border: 0;

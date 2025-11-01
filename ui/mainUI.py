@@ -22,13 +22,21 @@ NAMEANDCOPYRIGHTSTYLESHEET = """
             background-color: none;
             color: black;
         """
+VERFILE = "resources/ver"
+
+
+def getVer(name):
+    with open(name) as f:
+        ver = f.readline()
+    return ver
+
 
 #Определение классов окон
-class timetableWindow(QtWidgets.QWidget):
-    def __init__(self):
-        super(timetableWindow, self).__init__()
-        self.ui = Ui_timetable()
-        self.ui.setupUi(self)
+# class timetableWindow(QtWidgets.QWidget):
+#     def __init__(self):
+#         super(timetableWindow, self).__init__()
+#         self.ui = Ui_timetable()
+#         self.ui.setupUi(self)
 
 
 class cronWindow(QtWidgets.QWidget):
@@ -39,10 +47,10 @@ class cronWindow(QtWidgets.QWidget):
 
 
 class examWindow(QtWidgets.QWidget):
-    def __init__(self):
+    def __init__(self, font):
         super(examWindow, self).__init__()
         self.ui = Ui_exam()
-        self.ui.setupUi(self)
+        self.ui.setupUi(self, font)
 
 
 class aboutWindow(QtWidgets.QWidget):
@@ -56,15 +64,15 @@ class Ui_mainWindow(object):
     def button_clicked(self, info, font):
         if info == 'Расписание':
             global timetableW
-            timetableW = timetableWindow()
-            timetableW.show()
+            # timetableW = timetableWindow()
+            # timetableW.show()
         elif info == 'Планировщик задач':
             global crontabW
             crontabW = cronWindow()
             crontabW.show()
         elif info == 'Подготовка к экзаменам':
             global examW
-            examW = examWindow()
+            examW = examWindow(font)
             examW.show()
         elif info == 'Справка':
             global aboutW
@@ -162,4 +170,5 @@ class Ui_mainWindow(object):
         self.timetableButt.setText(_translate("mainWindow", "Расписание"))
         self.aboutButt.setText(_translate("mainWindow", "Справка"))
         self.examButt.setText(_translate("mainWindow", "Подготовка к экзаменам"))
-        self.copyright.setText(_translate("mainWindow", "SCHelper 2.1 ©Конжин Н.А. 2025"))
+        self.copyright.setText(_translate("mainWindow", f"SCHelper {getVer(VERFILE)} "
+                                                        f"©Конжин Н.А. 2025"))
