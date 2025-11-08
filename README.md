@@ -20,3 +20,5 @@
 1. Установить зависимости командой: pip install -r requirements.txt
 2. Установить программу из соответствующего установочного пакета или распаковать архив .tar.gz
 3. Запустить файл: main.py
+
+<a href="https://ibb.co/vCwzS0SN"><img src="https://i.ibb.co/20nKTGTz/sch-Scrren1.png" alt="sch-Scrren1" border="0"></a>
