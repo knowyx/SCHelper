@@ -40,11 +40,10 @@ def getVer(name):
 
 
 class cronWindow(QtWidgets.QWidget):
-    def __init__(self):
+    def __init__(self, font):
         super(cronWindow, self).__init__()
         self.ui = Ui_crontab()
-        self.ui.setupUi(self)
-
+        self.ui.setupUi(self, font)
 
 class examWindow(QtWidgets.QWidget):
     def __init__(self, font):
@@ -68,7 +67,7 @@ class Ui_mainWindow(object):
             # timetableW.show()
         elif info == 'Планировщик задач':
             global crontabW
-            crontabW = cronWindow()
+            crontabW = cronWindow(font)
             crontabW.show()
         elif info == 'Подготовка к экзаменам':
             global examW
@@ -82,7 +81,7 @@ class Ui_mainWindow(object):
 
     def setupUi(self, mainWindow, mainFont):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(1000, 500)
+        mainWindow.resize(1000, 600)
         mainWindow.setMinimumSize(QtCore.QSize(800, 600))
         mainWindow.setWindowIcon(QtGui.QIcon('icon.ico'))
         font = QtGui.QFont(mainFont, 10)

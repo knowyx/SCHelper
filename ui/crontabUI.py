@@ -1,57 +1,41 @@
 # -*- coding: utf-8 -*-
 from PyQt6 import QtCore, QtGui, QtWidgets
-# from resources.jsonWorker import read, writeAdd, elementDeletion
-# FILE = 'resources/tasks.json'
-# tasksDATA = read(FILE)
-
-
-def blockCreation(parent, index, taskData):
-        
-    taskGroup = QtWidgets.QGroupBox(parent)
-    taskGroup.setStyleSheet("""
-        background-color:rgb(255, 166, 103);
-        padding: 3;
-        border-style: solid;
-        border-width: 1.5px;
-        border-color: rgb(255, 133, 62);
-        font-size: 13px;
-        color: black;
-    """)
-    taskGroup.setMaximumSize(QtCore.QSize(16777215, 100))
-    taskGroup.setTitle("")
-    taskGroup.setObjectName(f"task{index}")
-    gridLayout = QtWidgets.QGridLayout(taskGroup)
-    gridLayout.setObjectName(f"gridLayout{index}")
-    taskDelete = QtWidgets.QPushButton(taskGroup)
-    taskDelete.setMaximumSize(QtCore.QSize(70, 72))
-    font = QtGui.QFont()
-    taskDelete.setFont(font)
-    taskDelete.setText("")
-    icon = QtGui.QIcon()
-    icon.addPixmap(QtGui.QPixmap("resources/DELETE_ICON.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-    taskDelete.setIcon(icon)
-    taskDelete.setIconSize(QtCore.QSize(70, 70))
-    taskDelete.setObjectName(f"taskDelete{index}")
-    taskDelete.clicked.connect(lambda: Ui_crontab.delete(taskGroup, index))
-    gridLayout.addWidget(taskDelete, 1, 2, 2, 1)
-    taskName = QtWidgets.QLabel(taskGroup)
-    taskName.setObjectName(f"taskName{index}")
-    taskName.setText(taskData['name'])
-    gridLayout.addWidget(taskName, 1, 0, 1, 1)
-    taskDate = QtWidgets.QLabel(taskGroup)
-    taskDate.setObjectName(f"taskDate{index}")
-    taskDate.setText(taskData['date'])
-    gridLayout.addWidget(taskDate, 2, 0, 1, 1)
-    return taskGroup, taskDelete
+from PyQt6.QtWidgets import QGroupBox, QMessageBox
+from resources.dbWorker import read, delete, writer
+from datetime import datetime
+FILE = "resources/db.sqlite"
 
 
 class Ui_crontab(object):
-    def setupUi(self, crontab):
+    def saver(self, name, givedData, taskContainer, taskLayout):
+        try:
+            dateSt, timeStr = givedData.split(' ')
+            day, month, year = map(int, dateSt.split('.'))
+            hour, minute, second = map(int, timeStr.split(':'))
+            timestamp = datetime(year, month, day, hour, minute, second).timestamp()
+            writer(FILE, "cron", ("name", "date"), (name, timestamp))
+            self.update(taskContainer, taskLayout)
+        except ValueError:
+            errorBox = QMessageBox()
+            errorBox.setIcon(QMessageBox.Icon.Critical)
+            errorBox.setWindowIcon(QtGui.QIcon('icon.ico'))
+            errorBox.setWindowTitle("Ошибка формата данных")
+            errorBox.setText(f"Дата и время должны быть в формате \"DD.MM.YYYY HH:MM:SS\". "
+                             f"Вы ввели: \"{givedData}\". Данные не были записаны в базу, вы можете ввести их заново")
+            errorBox.setFont(self.font)
+            errorBox.exec()
+
+
+    def setupUi(self, crontab, mainFont):
         crontab.setObjectName("crontab")
-        crontab.resize(915, 499)
-        crontab.setMinimumSize(QtCore.QSize(640, 480))
+        crontab.resize(1000, 600)
+        crontab.setMinimumSize(QtCore.QSize(800, 600))
         crontab.setWindowIcon(QtGui.QIcon('icon.ico'))
         crontab.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0             rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255));")
+        self.font = QtGui.QFont(mainFont, 10)
+        self.bigFont = QtGui.QFont(mainFont, 14)
+        self.font.setBold(True)
+        self.bigFont.setBold(True)
         self.gridLayout = QtWidgets.QGridLayout(crontab)
         self.gridLayout.setObjectName("gridLayout")
         self.taskName = QtWidgets.QLineEdit(crontab)
@@ -65,7 +49,6 @@ class Ui_crontab(object):
             border-style: solid;
             border-width: 1.5px;
             border-color: rgb(255, 133, 62);
-            font-size: 13px;
         """)
         self.taskName.setObjectName("taskName")
         self.gridLayout.addWidget(self.taskName, 7, 0, 1, 1)
@@ -78,7 +61,7 @@ class Ui_crontab(object):
                 border: 0;
                 margin: 0;
                 border-radius: 5;
-                color: white;
+                color: black;
                 padding-top: 2px;
                 padding-bottom: 2px;
             }
@@ -92,15 +75,12 @@ class Ui_crontab(object):
         self.taskCreationInfoBox = QtWidgets.QHBoxLayout()
         self.taskCreationInfoBox.setObjectName("taskCreationInfoBox")
         self.newTaskLabel = QtWidgets.QLabel(crontab)
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.newTaskLabel.setFont(font)
         self.newTaskLabel.setStyleSheet("""
             background-color: rgb(255, 133, 62);
             border: 0;
             margin: 0;
             border-radius: 5;
-            color: white;
+            color: black;
             padding-left: 5px;
             padding-top: 2px;
             padding-bottom: 2px;
@@ -108,11 +88,6 @@ class Ui_crontab(object):
         self.newTaskLabel.setObjectName("newTaskLabel")
         self.taskCreationInfoBox.addWidget(self.newTaskLabel)
         self.taskDate = QtWidgets.QLineEdit(crontab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.taskDate.sizePolicy().hasHeightForWidth())
-        self.taskDate.setSizePolicy(sizePolicy)
         self.taskDate.setStyleSheet("""
             background-color:rgb(255, 166, 103);
             border: 0;
@@ -123,7 +98,6 @@ class Ui_crontab(object):
             border-style: solid;
             border-width: 1.5px;
             border-color: rgb(255, 133, 62);
-            font-size: 13px;
         """)
         self.taskDate.setObjectName("taskDate")
         self.taskCreationInfoBox.addWidget(self.taskDate)
@@ -137,7 +111,6 @@ class Ui_crontab(object):
         taskContainer.setStyleSheet("""
             background-color:rgb(255, 166, 103);
             padding: 3;
-            font-size: 13px;
         """)
         taskScroll.setStyleSheet("""
         QScrollArea {
@@ -211,31 +184,29 @@ class Ui_crontab(object):
         """)
         taskScroll.verticalScrollBar().setStyleSheet(taskScroll.styleSheet())
         taskScroll.horizontalScrollBar().setStyleSheet(taskScroll.styleSheet())
-        # for i, taskData in enumerate(tasksDATA, start=1):
-        #     taskBlock, deleteButton = blockCreation(taskContainer, i, taskData)
-        #     taskLayout.addWidget(taskBlock)
-        #     deleteButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
-        # self.cronLabel = QtWidgets.QLabel(crontab)
-        # font = QtGui.QFont()
-        # font.setPointSize(12)
-        # self.cronLabel.setFont(font)
-        # self.cronLabel.setStyleSheet("""
-        #     background-color: rgb(255, 133, 62);
-        #     border: 0;
-        #     margin: 0;
-        #     border-radius: 5;
-        #     color: white;
-        #     padding-left: 5px;
-        #     padding-top: 2px;
-        #     padding-bottom: 2px;
-        # """)
-        # self.cronLabel.setObjectName("cronLabel")
-        # self.gridLayout.addWidget(self.cronLabel, 0, 0, 1, 1)
-        # self.saveButton.clicked.connect(lambda: writeAdd(FILE, {"name": self.taskName.text(), "date": self.taskDate.text()}))
-        # self.saveButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
-        # self.retranslateUi(crontab)
-        # QtCore.QMetaObject.connectSlotsByName(crontab)
-
+        self.cronLabel = QtWidgets.QLabel(crontab)
+        self.cronLabel.setStyleSheet("""
+            background-color: rgb(255, 133, 62);
+            border: 0;
+            margin: 0;
+            border-radius: 5;
+            color: black;
+            padding-left: 5px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+        """)
+        self.cronLabel.setObjectName("cronLabel")
+        self.gridLayout.addWidget(self.cronLabel, 0, 0, 1, 1)
+        self.saveButton.clicked.connect(lambda: self.saver(self.taskName.text(), self.taskDate.text(),
+                                                           taskContainer, taskLayout))
+        self.retranslateUi(crontab)
+        QtCore.QMetaObject.connectSlotsByName(crontab)
+        self.update(taskContainer, taskLayout)
+        self.cronLabel.setFont(self.bigFont)
+        self.newTaskLabel.setFont(self.bigFont)
+        self.taskName.setFont(self.font)
+        self.taskDate.setFont(self.font)
+        self.saveButton.setFont(self.bigFont)
 
     def retranslateUi(self, crontab):
         _translate = QtCore.QCoreApplication.translate
@@ -243,24 +214,53 @@ class Ui_crontab(object):
         self.taskName.setPlaceholderText(_translate("crontab", "Название"))
         self.saveButton.setText(_translate("crontab", "Сохранить"))
         self.newTaskLabel.setText(_translate("crontab", "Создать новую задачу"))
-        self.taskDate.setPlaceholderText(_translate("crontab", "Дата"))
+        self.taskDate.setPlaceholderText(_translate("crontab", "Дата и время в формате \"DD.MM.YYYY HH:MM:SS\""))
         self.cronLabel.setText(_translate("crontab", "Планировщик задач"))
 
+    def delAndUpdate(self, num, taskContainer, taskLayout):
+        delete(FILE, "cron", num)
+        for task in taskContainer.findChildren(QGroupBox):
+            task.deleteLater()
+        self.update(taskContainer, taskLayout)
 
     def update(self, taskContainer, taskLayout):
-        # tasksDATA = read(FILE)
-        while taskLayout.count():
-            item = taskLayout.takeAt(0)
-            widget = item.widget()
-            if widget:
-                widget.deleteLater()
-        # for i, taskData in enumerate(tasksDATA, start=1):
-        #     taskBlock, deleteButton = blockCreation(taskContainer, i, taskData)
-        #     taskLayout.addWidget(taskBlock)
-        #     deleteButton.clicked.connect(lambda: self.update(taskContainer, taskLayout))
-
-
-    def delete(taskGroup, index):
-        # elementDeletion(FILE, index)
-        taskGroup.setParent(None)
-        taskGroup.deleteLater()
+        tasksDATA = read(FILE, "cron", "*")
+        tasksDATA.sort(key=lambda x: x[1])
+        tasksDATA.sort(key=lambda x: x[2])
+        for task in taskContainer.findChildren(QGroupBox):
+            task.deleteLater()
+        for num, name, date in tasksDATA:
+            setattr(self, f"task{num}", QtWidgets.QGroupBox(taskContainer))
+            getattr(self, f"task{num}").setStyleSheet(
+                """
+                    background-color:rgb(255, 166, 103);
+                    padding: 3;
+                    border-style: solid;
+                    border-width: 1.5px;
+                    border-color: rgb(255, 133, 62);
+                    color: black;
+                """)
+            getattr(self, f"task{num}").setMaximumSize(16777215, 100)
+            taskLayout.addWidget(getattr(self, f"task{num}"))
+            setattr(self, f"gridLayoutTask{num}", QtWidgets.QGridLayout(getattr(self, f"task{num}")))
+            getattr(self, f"gridLayoutTask{num}").setObjectName(f"gridLayout{num}")
+            setattr(self, f"taskDeleteButton{num}", QtWidgets.QPushButton(getattr(self, f"task{num}")))
+            getattr(self, f"taskDeleteButton{num}").setMaximumSize(QtCore.QSize(70, 72))
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap("resources/DELETE_ICON.svg"))
+            getattr(self, f"taskDeleteButton{num}").setIcon(icon)
+            getattr(self, f"taskDeleteButton{num}").setIconSize(QtCore.QSize(70, 70))
+            (getattr(self, f"taskDeleteButton{num}").clicked.connect
+             (lambda _, n=num: self.delAndUpdate(n, taskContainer, taskLayout)))
+            getattr(self, f"gridLayoutTask{num}").addWidget(getattr(self, f"taskDeleteButton{num}"), 1, 2, 2, 1)
+            taskName = QtWidgets.QLabel(getattr(self, f"task{num}"))
+            taskName.setText(name)
+            getattr(self, f"gridLayoutTask{num}").addWidget(taskName, 1, 0, 1, 1)
+            taskDate = QtWidgets.QLabel(getattr(self, f"task{num}"))
+            dateConverted = datetime.fromtimestamp(date)
+            printDate = (f"{dateConverted.day}.{dateConverted.month}.{dateConverted.year} "
+                         f"{dateConverted.hour}:{dateConverted.minute}:{dateConverted.second}")
+            taskDate.setText(printDate)
+            getattr(self, f"gridLayoutTask{num}").addWidget(taskDate, 2, 0, 1, 1)
+            taskDate.setFont(self.font)
+            taskName.setFont(self.font)

@@ -44,7 +44,7 @@ BOXSTYLESHEETS = """
 class Ui_exam(object):
     def setupUi(self, exam, mainFont):
         exam.setObjectName("exam")
-        exam.resize(1000, 500)
+        exam.resize(1000, 600)
         exam.setMinimumSize(QtCore.QSize(800, 600))
         exam.setWindowIcon(QtGui.QIcon('icon.ico'))
         exam.setStyleSheet("""

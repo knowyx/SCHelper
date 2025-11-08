@@ -37,7 +37,7 @@ def getText(file, verfile):
 class Ui_about(object):
     def setupUi(self, about, mainFont):
         about.setObjectName("about")
-        about.resize(1000, 500)
+        about.resize(1000, 600)
         about.setMinimumSize(QtCore.QSize(800, 600))
         about.setWindowIcon(QtGui.QIcon('icon.ico'))
         about.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0"
