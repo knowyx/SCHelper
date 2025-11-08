@@ -235,14 +235,6 @@ class Ui_timetable(QtWidgets.QWidget):
         currentDay = self.dayChoose.currentIndex()
         result = cur.execute(f"SELECT lessonNum, lessonName, lessonStarts, lessonEnds, place, teacher FROM"
                              f" timetable WHERE weekDay = {currentDay}").fetchall()
-        self.timetableView.setHorizontalHeaderLabels(LABELS)
-        self.timetableView.setColumnWidth(0, 20)
-        self.timetableView.setColumnWidth(1, 145)
-        self.timetableView.setColumnWidth(2, 145)
-        self.timetableView.setColumnWidth(3, 145)
-        self.timetableView.setColumnWidth(4, 145)
-        self.timetableView.setColumnWidth(5, 145)
-        self.timetableView.setFont(self.font)
         self.timetableView.setRowCount(len(result))
         self.deleteIndex.setMaximum(len(result))
         if len(result) != 0:
@@ -251,6 +243,14 @@ class Ui_timetable(QtWidgets.QWidget):
                 for j, val in enumerate(elem):
                     self.timetableView.setItem(i, j, QtWidgets.QTableWidgetItem(str(val)))
         self.modified = {}
+        self.timetableView.setHorizontalHeaderLabels(LABELS)
+        self.timetableView.setColumnWidth(0, 20)
+        self.timetableView.setColumnWidth(1, 145)
+        self.timetableView.setColumnWidth(2, 145)
+        self.timetableView.setColumnWidth(3, 145)
+        self.timetableView.setColumnWidth(4, 145)
+        self.timetableView.setColumnWidth(5, 145)
+        self.timetableView.setFont(self.font)
 
     def boxChanged(self, item):
         self.modified[(item.column(), item.row())] = item.text()
@@ -364,7 +364,7 @@ class Ui_timetable(QtWidgets.QWidget):
         self.dayChoose.setItemText(3, _translate("timetable", "Четверг"))
         self.dayChoose.setItemText(4, _translate("timetable", "Пятница"))
         self.dayChoose.setItemText(5, _translate("timetable", "Суббота"))
-        self.dayChoose.setItemText(6, _translate("timetable", "Воскресенье"))
+        self.dayChoose.addItem("Воскресенье")
         self.newLineButton.setText(_translate("timetable", "Новая строка"))
         self.deleteButton.setText(_translate("timetable", "Удалить строку"))
         self.saveButton.setText(_translate("timetable", "Сохранить изменения"))
