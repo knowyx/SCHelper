@@ -235,9 +235,6 @@ class Ui_timetable(QtWidgets.QWidget):
         currentDay = self.dayChoose.currentIndex()
         result = cur.execute(f"SELECT lessonNum, lessonName, lessonStarts, lessonEnds, place, teacher FROM"
                              f" timetable WHERE weekDay = {currentDay}").fetchall()
-        self.timetableView.setRowCount(len(result))
-        self.timetableView.setColumnCount(len(result[0]))
-        self.deleteIndex.setMaximum(len(result))
         self.timetableView.setHorizontalHeaderLabels(LABELS)
         self.timetableView.setColumnWidth(0, 20)
         self.timetableView.setColumnWidth(1, 145)
@@ -246,9 +243,13 @@ class Ui_timetable(QtWidgets.QWidget):
         self.timetableView.setColumnWidth(4, 145)
         self.timetableView.setColumnWidth(5, 145)
         self.timetableView.setFont(self.font)
-        for i, elem in enumerate(result):
-            for j, val in enumerate(elem):
-                self.timetableView.setItem(i, j, QtWidgets.QTableWidgetItem(str(val)))
+        self.timetableView.setRowCount(len(result))
+        self.deleteIndex.setMaximum(len(result))
+        if len(result) != 0:
+            self.timetableView.setColumnCount(len(result[0]))
+            for i, elem in enumerate(result):
+                for j, val in enumerate(elem):
+                    self.timetableView.setItem(i, j, QtWidgets.QTableWidgetItem(str(val)))
         self.modified = {}
 
     def boxChanged(self, item):
