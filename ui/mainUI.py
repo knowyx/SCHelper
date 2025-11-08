@@ -32,11 +32,11 @@ def getVer(name):
 
 
 #Определение классов окон
-# class timetableWindow(QtWidgets.QWidget):
-#     def __init__(self):
-#         super(timetableWindow, self).__init__()
-#         self.ui = Ui_timetable()
-#         self.ui.setupUi(self)
+class timetableWindow(QtWidgets.QWidget):
+    def __init__(self, font):
+        super(timetableWindow, self).__init__()
+        self.ui = Ui_timetable()
+        self.ui.setupUi(self, font)
 
 
 class cronWindow(QtWidgets.QWidget):
@@ -63,8 +63,8 @@ class Ui_mainWindow(object):
     def button_clicked(self, info, font):
         if info == 'Расписание':
             global timetableW
-            # timetableW = timetableWindow()
-            # timetableW.show()
+            timetableW = timetableWindow(font)
+            timetableW.show()
         elif info == 'Планировщик задач':
             global crontabW
             crontabW = cronWindow(font)

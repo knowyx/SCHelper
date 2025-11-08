@@ -1,460 +1,369 @@
-# -*- coding: utf-8 -*-
 from PyQt6 import QtCore, QtGui, QtWidgets
-# from resources.jsonWorker import read
-from ui.editTimetableUI import Ui_editTimetable
-# FILE = 'resources/timetable.json'
-# timetableDATA = read(FILE)
-LESSONSSTYLESHEET = """
-            background-color:rgb(255, 166, 103);
-            border: 0;
-            margin: 0;
-            border-radius: 3;
-            color: black;
-            padding: 3;
-            border-style: solid;
-            border-width: 1.5px;
-            border-color: rgb(255, 133, 62);
-            font-size: 13px;
+import sqlite3
+FILE = "resources/db.sqlite"
+LABELS = ['№', 'Название урока', 'Время начала',
+          'Время окончания', 'Место проведения', 'Ф.И.О Преподавателя']
+LABELSENG = {'№': 'lessonNum', 'Название урока': 'lessonName', 'Время начала': 'lessonStarts',
+          'Время окончания': 'lessonEnds', 'Место проведения': 'place', 'Ф.И.О Преподавателя': 'teacher'}
+BUTTONSTYLESHEET = """
+            QPushButton {
+                background-color: rgb(255, 133, 62);
+                border: 0;
+                margin: 0;
+                border-radius: 5;
+                color: black;
+            }
+            QPushButton:hover {
+                background-color:rgb(244, 81, 0);
+            }
         """
-DAYSLINESSTYLESHEET = """
+
+
+class Ui_timetable(QtWidgets.QWidget):
+    def setupUi(self, timetable, mainFont):
+        timetable.setObjectName("timetable")
+        timetable.resize(1000, 600)
+        timetable.setMinimumSize(QtCore.QSize(800, 600))
+        timetable.setWindowIcon(QtGui.QIcon('icon.ico'))
+        timetable.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0,"
+                                " stop:0 rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255));")
+        self.font = QtGui.QFont(mainFont, 10)
+        self.bigFont = QtGui.QFont(mainFont, 14)
+        self.bigFont.setBold(True)
+        self.font.setBold(True)
+        self.verticalLayout = QtWidgets.QVBoxLayout(timetable)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.timetableTitle = QtWidgets.QLabel(self)
+        self.timetableTitle.setStyleSheet("""
             background-color: rgb(255, 133, 62);
             border: 0;
             margin: 0;
             border-radius: 5;
-            color: white;
-        """
-
-
-class editTimetable(QtWidgets.QWidget):
-    def __init__(self):
-        super(editTimetable, self).__init__()
-        self.ui = Ui_editTimetable()
-        self.ui.setupUi(self)
-   
-
-class Ui_timetable(object):
-    def editClicked(self):
-        global editTimetableW
-        editTimetableW = editTimetable()
-        editTimetableW.show()
-  
-
-    def setupUi(self, timetable):
-        timetable.setObjectName("timetable")
-        timetable.resize(915, 499)
-        timetable.setMinimumSize(QtCore.QSize(640, 480))
-        timetable.setWindowIcon(QtGui.QIcon('icon.ico'))
-        timetable.setBaseSize(QtCore.QSize(873, 497))
-        timetable.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0             rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255))")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(timetable)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.topName = QtWidgets.QLabel(timetable)
-        self.topName.setMaximumSize(QtCore.QSize(16777215, 20))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.topName.setFont(font)
-        self.topName.setStyleSheet("""
-            color: rgb(0, 0, 0);
-            background-color: none;
+            color: black;
+            padding-left: 5px;
+            padding-top: 2px;
+            padding-bottom: 2px;
         """)
-        self.topName.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
-        self.topName.setObjectName("topName")
-        self.verticalLayout_2.addWidget(self.topName)
-        self.tableLayout = QtWidgets.QVBoxLayout()
-        self.tableLayout.setObjectName("tableLayout")
-        self.daysLine1 = QtWidgets.QGridLayout()
-        self.daysLine1.setObjectName("daysLine1")
-        self.day2Lessons = QtWidgets.QVBoxLayout()
-        self.day2Lessons.setObjectName("day2Lessons")
-        self.D2lesson1 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D2lesson1.setFont(font)
-        self.D2lesson1.setStyleSheet(LESSONSSTYLESHEET)
-        self.D2lesson1.setObjectName("D2lesson1")
-        self.day2Lessons.addWidget(self.D2lesson1)
-        self.D2lesson2 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D2lesson2.setFont(font)
-        self.D2lesson2.setStyleSheet(LESSONSSTYLESHEET)
-        self.D2lesson2.setObjectName("D2lesson2")
-        self.day2Lessons.addWidget(self.D2lesson2)
-        self.D2lesson3 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D2lesson3.setFont(font)
-        self.D2lesson3.setStyleSheet(LESSONSSTYLESHEET)
-        self.D2lesson3.setObjectName("D2lesson3")
-        self.day2Lessons.addWidget(self.D2lesson3)
-        self.D2lesson4 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D2lesson4.setFont(font)
-        self.D2lesson4.setStyleSheet(LESSONSSTYLESHEET)
-        self.D2lesson4.setObjectName("D2lesson4")
-        self.day2Lessons.addWidget(self.D2lesson4)
-        self.D2lesson5 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D2lesson5.setFont(font)
-        self.D2lesson5.setStyleSheet(LESSONSSTYLESHEET)
-        self.D2lesson5.setObjectName("D2lesson5")
-        self.day2Lessons.addWidget(self.D2lesson5)
-        self.D2lesson6 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D2lesson6.setFont(font)
-        self.D2lesson6.setStyleSheet(LESSONSSTYLESHEET)
-        self.D2lesson6.setObjectName("D2lesson6")
-        self.day2Lessons.addWidget(self.D2lesson6)
-        self.daysLine1.addLayout(self.day2Lessons, 1, 1, 1, 1)
-        self.day3Lessons = QtWidgets.QVBoxLayout()
-        self.day3Lessons.setObjectName("day3Lessons")
-        self.D3lesson1 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D3lesson1.setFont(font)
-        self.D3lesson1.setStyleSheet(LESSONSSTYLESHEET)
-        self.D3lesson1.setObjectName("D3lesson1")
-        self.day3Lessons.addWidget(self.D3lesson1)
-        self.D3lesson2 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D3lesson2.setFont(font)
-        self.D3lesson2.setStyleSheet(LESSONSSTYLESHEET)
-        self.D3lesson2.setObjectName("D3lesson2")
-        self.day3Lessons.addWidget(self.D3lesson2)
-        self.D3lesson3 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D3lesson3.setFont(font)
-        self.D3lesson3.setStyleSheet(LESSONSSTYLESHEET)
-        self.D3lesson3.setObjectName("D3lesson3")
-        self.day3Lessons.addWidget(self.D3lesson3)
-        self.D3lesson4 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D3lesson4.setFont(font)
-        self.D3lesson4.setStyleSheet(LESSONSSTYLESHEET)
-        self.D3lesson4.setObjectName("D3lesson4")
-        self.day3Lessons.addWidget(self.D3lesson4)
-        self.D3lesson5 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D3lesson5.setFont(font)
-        self.D3lesson5.setStyleSheet(LESSONSSTYLESHEET)
-        self.D3lesson5.setObjectName("D3lesson5")
-        self.day3Lessons.addWidget(self.D3lesson5)
-        self.D3lesson6 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D3lesson6.setFont(font)
-        self.D3lesson6.setStyleSheet(LESSONSSTYLESHEET)
-        self.D3lesson6.setObjectName("D3lesson6")
-        self.day3Lessons.addWidget(self.D3lesson6)
-        self.daysLine1.addLayout(self.day3Lessons, 1, 2, 1, 1)
-        self.day1Line1Name = QtWidgets.QLabel(timetable)
-        self.day1Line1Name.setMaximumSize(QtCore.QSize(16777215, 30))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.day1Line1Name.setFont(font)
-        self.day1Line1Name.setStyleSheet(DAYSLINESSTYLESHEET)
-        self.day1Line1Name.setAlignment(QtCore.Qt.AlignCenter)
-        self.day1Line1Name.setObjectName("day1Line1Name")
-        self.daysLine1.addWidget(self.day1Line1Name, 0, 0, 1, 1)
-        self.day2Line1Name = QtWidgets.QLabel(timetable)
-        self.day2Line1Name.setMaximumSize(QtCore.QSize(16777215, 30))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.day2Line1Name.setFont(font)
-        self.day2Line1Name.setStyleSheet(DAYSLINESSTYLESHEET)
-        self.day2Line1Name.setAlignment(QtCore.Qt.AlignCenter)
-        self.day2Line1Name.setObjectName("day2Line1Name")
-        self.daysLine1.addWidget(self.day2Line1Name, 0, 1, 1, 1)
-        self.day3Line1Name = QtWidgets.QLabel(timetable)
-        self.day3Line1Name.setMaximumSize(QtCore.QSize(16777215, 30))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.day3Line1Name.setFont(font)
-        self.day3Line1Name.setStyleSheet(DAYSLINESSTYLESHEET)
-        self.day3Line1Name.setAlignment(QtCore.Qt.AlignCenter)
-        self.day3Line1Name.setObjectName("day3Line1Name")
-        self.daysLine1.addWidget(self.day3Line1Name, 0, 2, 1, 1)
-        self.day1Lessons = QtWidgets.QVBoxLayout()
-        self.day1Lessons.setObjectName("day1Lessons")
-        self.D1lesson1 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D1lesson1.setFont(font)
-        self.D1lesson1.setStyleSheet(LESSONSSTYLESHEET)
-        self.D1lesson1.setObjectName("D1lesson1")
-        self.day1Lessons.addWidget(self.D1lesson1)
-        self.D1lesson2 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D1lesson2.setFont(font)
-        self.D1lesson2.setStyleSheet(LESSONSSTYLESHEET)
-        self.D1lesson2.setObjectName("D1lesson2")
-        self.day1Lessons.addWidget(self.D1lesson2)
-        self.D1lesson3 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D1lesson3.setFont(font)
-        self.D1lesson3.setStyleSheet(LESSONSSTYLESHEET)
-        self.D1lesson3.setObjectName("D1lesson3")
-        self.day1Lessons.addWidget(self.D1lesson3)
-        self.D1lesson4 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D1lesson4.setFont(font)
-        self.D1lesson4.setStyleSheet(LESSONSSTYLESHEET)
-        self.D1lesson4.setObjectName("D1lesson4")
-        self.day1Lessons.addWidget(self.D1lesson4)
-        self.D1lesson5 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D1lesson5.setFont(font)
-        self.D1lesson5.setStyleSheet(LESSONSSTYLESHEET)
-        self.D1lesson5.setObjectName("D1lesson5")
-        self.day1Lessons.addWidget(self.D1lesson5)
-        self.D1lesson6 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D1lesson6.setFont(font)
-        self.D1lesson6.setStyleSheet(LESSONSSTYLESHEET)
-        self.D1lesson6.setObjectName("D1lesson6")
-        self.day1Lessons.addWidget(self.D1lesson6)
-        self.daysLine1.addLayout(self.day1Lessons, 1, 0, 1, 1)
-        self.tableLayout.addLayout(self.daysLine1)
-        self.daysLine2 = QtWidgets.QGridLayout()
-        self.daysLine2.setObjectName("daysLine2")
-        self.day5Lessons = QtWidgets.QVBoxLayout()
-        self.day5Lessons.setObjectName("day5Lessons")
-        self.D5lesson1 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D5lesson1.setFont(font)
-        self.D5lesson1.setStyleSheet(LESSONSSTYLESHEET)
-        self.D5lesson1.setObjectName("D5lesson1")
-        self.day5Lessons.addWidget(self.D5lesson1)
-        self.D5lesson2 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D5lesson2.setFont(font)
-        self.D5lesson2.setStyleSheet(LESSONSSTYLESHEET)
-        self.D5lesson2.setObjectName("D5lesson2")
-        self.day5Lessons.addWidget(self.D5lesson2)
-        self.D5lesson3 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D5lesson3.setFont(font)
-        self.D5lesson3.setStyleSheet(LESSONSSTYLESHEET)
-        self.D5lesson3.setObjectName("D5lesson3")
-        self.day5Lessons.addWidget(self.D5lesson3)
-        self.D5lesson4 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D5lesson4.setFont(font)
-        self.D5lesson4.setStyleSheet(LESSONSSTYLESHEET)
-        self.D5lesson4.setObjectName("D5lesson4")
-        self.day5Lessons.addWidget(self.D5lesson4)
-        self.D5lesson5 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D5lesson5.setFont(font)
-        self.D5lesson5.setStyleSheet(LESSONSSTYLESHEET)
-        self.D5lesson5.setObjectName("D5lesson5")
-        self.day5Lessons.addWidget(self.D5lesson5)
-        self.D5lesson6 = QtWidgets.QLabel(timetable)
-        self.D5lesson6.setMinimumSize(QtCore.QSize(0, 0))
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D5lesson6.setFont(font)
-        self.D5lesson6.setStyleSheet(LESSONSSTYLESHEET)
-        self.D5lesson6.setObjectName("D5lesson6")
-        self.day5Lessons.addWidget(self.D5lesson6)
-        self.daysLine2.addLayout(self.day5Lessons, 1, 1, 1, 1)
-        self.day4Lessons = QtWidgets.QVBoxLayout()
-        self.day4Lessons.setObjectName("day4Lessons")
-        self.D4lesson1 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D4lesson1.setFont(font)
-        self.D4lesson1.setStyleSheet(LESSONSSTYLESHEET)
-        self.D4lesson1.setObjectName("D4lesson1")
-        self.day4Lessons.addWidget(self.D4lesson1)
-        self.D4lesson2 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D4lesson2.setFont(font)
-        self.D4lesson2.setStyleSheet(LESSONSSTYLESHEET)
-        self.D4lesson2.setObjectName("D4lesson2")
-        self.day4Lessons.addWidget(self.D4lesson2)
-        self.D4lesson3 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D4lesson3.setFont(font)
-        self.D4lesson3.setStyleSheet(LESSONSSTYLESHEET)
-        self.D4lesson3.setObjectName("D4lesson3")
-        self.day4Lessons.addWidget(self.D4lesson3)
-        self.D4lesson4 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D4lesson4.setFont(font)
-        self.D4lesson4.setStyleSheet(LESSONSSTYLESHEET)
-        self.D4lesson4.setObjectName("D4lesson4")
-        self.day4Lessons.addWidget(self.D4lesson4)
-        self.D4lesson5 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D4lesson5.setFont(font)
-        self.D4lesson5.setStyleSheet(LESSONSSTYLESHEET)
-        self.D4lesson5.setObjectName("D4lesson5")
-        self.day4Lessons.addWidget(self.D4lesson5)
-        self.D4lesson6 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D4lesson6.setFont(font)
-        self.D4lesson6.setStyleSheet(LESSONSSTYLESHEET)
-        self.D4lesson6.setObjectName("D4lesson6")
-        self.day4Lessons.addWidget(self.D4lesson6)
-        self.daysLine2.addLayout(self.day4Lessons, 1, 0, 1, 1)
-        self.day6Lessons = QtWidgets.QVBoxLayout()
-        self.day6Lessons.setObjectName("day6Lessons")
-        self.D6lesson1 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D6lesson1.setFont(font)
-        self.D6lesson1.setStyleSheet(LESSONSSTYLESHEET)
-        self.D6lesson1.setObjectName("D6lesson1")
-        self.day6Lessons.addWidget(self.D6lesson1)
-        self.D6lesson2 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D6lesson2.setFont(font)
-        self.D6lesson2.setStyleSheet(LESSONSSTYLESHEET)
-        self.D6lesson2.setObjectName("D6lesson2")
-        self.day6Lessons.addWidget(self.D6lesson2)
-        self.D6lesson3 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D6lesson3.setFont(font)
-        self.D6lesson3.setStyleSheet(LESSONSSTYLESHEET)
-        self.D6lesson3.setObjectName("D6lesson3")
-        self.day6Lessons.addWidget(self.D6lesson3)
-        self.D6lesson4 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D6lesson4.setFont(font)
-        self.D6lesson4.setStyleSheet(LESSONSSTYLESHEET)
-        self.D6lesson4.setObjectName("D6lesson4")
-        self.day6Lessons.addWidget(self.D6lesson4)
-        self.D6lesson5 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D6lesson5.setFont(font)
-        self.D6lesson5.setStyleSheet(LESSONSSTYLESHEET)
-        self.D6lesson5.setObjectName("D6lesson5")
-        self.day6Lessons.addWidget(self.D6lesson5)
-        self.D6lesson6 = QtWidgets.QLabel(timetable)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.D6lesson6.setFont(font)
-        self.D6lesson6.setStyleSheet(LESSONSSTYLESHEET)
-        self.D6lesson6.setObjectName("D6lesson6")
-        self.day6Lessons.addWidget(self.D6lesson6)
-        self.daysLine2.addLayout(self.day6Lessons, 1, 2, 1, 1)
-        self.day5Line2Name = QtWidgets.QLabel(timetable)
-        self.day5Line2Name.setMaximumSize(QtCore.QSize(16777215, 30))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.day5Line2Name.setFont(font)
-        self.day5Line2Name.setStyleSheet(DAYSLINESSTYLESHEET)
-        self.day5Line2Name.setAlignment(QtCore.Qt.AlignCenter)
-        self.day5Line2Name.setObjectName("day5Line2Name")
-        self.daysLine2.addWidget(self.day5Line2Name, 0, 1, 1, 1)
-        self.day6Line2Name = QtWidgets.QLabel(timetable)
-        self.day6Line2Name.setMaximumSize(QtCore.QSize(16777215, 30))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.day6Line2Name.setFont(font)
-        self.day6Line2Name.setStyleSheet(DAYSLINESSTYLESHEET)
-        self.day6Line2Name.setAlignment(QtCore.Qt.AlignCenter)
-        self.day6Line2Name.setObjectName("day6Line2Name")
-        self.daysLine2.addWidget(self.day6Line2Name, 0, 2, 1, 1)
-        self.day4Line2Name = QtWidgets.QLabel(timetable)
-        self.day4Line2Name.setMaximumSize(QtCore.QSize(16777215, 30))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.day4Line2Name.setFont(font)
-        self.day4Line2Name.setStyleSheet(DAYSLINESSTYLESHEET)
-        self.day4Line2Name.setAlignment(QtCore.Qt.AlignCenter)
-        self.day4Line2Name.setObjectName("day4Line2Name")
-        self.daysLine2.addWidget(self.day4Line2Name, 0, 0, 1, 1)
-        self.tableLayout.addLayout(self.daysLine2)
-        self.footer = QtWidgets.QHBoxLayout()
-        self.footer.setObjectName("footer")
-        self.editButton = QtWidgets.QPushButton(timetable)
-        self.editButton.clicked.connect(lambda: self.editClicked())
-        font.setPointSize(12)
-        self.editButton.setMinimumSize(QtCore.QSize(0, 20))
-        self.editButton.setStyleSheet("""
-            QPushButton {
-                background-color: rgb(255, 133, 62);
+        self.timetableTitle.setObjectName("timetableTitle")
+        self.verticalLayout.addWidget(self.timetableTitle)
+        self.dayChoose = QtWidgets.QComboBox(self)
+        self.dayChoose.setStyleSheet("""
+            QComboBox, 
+            QComboBox::drop-down, 
+            QAbstractItemView{
+                background-color:rgb(255, 166, 103);
                 border: 0;
                 margin: 0;
-                border-radius: 5;
-                color: white;
+                border-radius: 3;
+                color: black;
+                padding: 3;
+                border-style: solid;
+                border-width: 1.5px;
+                border-color: rgb(255, 133, 62);
+                
             }
-            QPushButton:hover {
-                background-color:rgb(244, 81, 0);
-            }      
+            QComboBox:hover, 
+            QComboBox::drop-down:hover, 
+            QComboBox::drop-down:hover{
+                background-color: rgb(244, 81, 0);
+            }
+            QComboBox::down-arrow {
+                image: url(resources/plus.svg);
+                width: 12px;
+                height: 12px;
+            }
         """)
-        self.editButton.setObjectName("editButton")
-        self.updateButton = QtWidgets.QPushButton(timetable)
-        self.updateButton.clicked.connect(lambda: self.update())
-        font.setPointSize(12)
-        self.updateButton.setMinimumSize(QtCore.QSize(0, 20))
-        self.updateButton.setStyleSheet("""
-            QPushButton {
-                background-color: rgb(255, 133, 62);
+        self.dayChoose.setObjectName("dayChoose")
+        self.dayChoose.addItem("")
+        self.dayChoose.addItem("")
+        self.dayChoose.addItem("")
+        self.dayChoose.addItem("")
+        self.dayChoose.addItem("")
+        self.dayChoose.addItem("")
+        self.verticalLayout.addWidget(self.dayChoose)
+        self.timetableView = QtWidgets.QTableWidget(self)
+        self.timetableView.setStyleSheet("""
+            QTableWidget,
+            QHeaderView::section,
+            QTableCornerButton::section, QWidget{
+                border-style: solid;
+                border-width: 1.5px;
+                border-color: rgb(255, 133, 62);
+                background-color:rgb(255, 166, 103);
+            }
+            QScrollBar:vertical {
+                border: none;
+                background: #FFA066;
+                width: 12px;
+                margin: 0;
+                border-radius: 6px;
+            }
+    
+            QScrollBar::handle:vertical {
+                background: #FF8C42;
+                min-height: 20px;
+                border-radius: 6px;
+                border: 2px solid #D66A2A;
+            }
+    
+            QScrollBar::handle:vertical:hover {
+                background: #FF7A2F;
+            }
+    
+            QScrollBar::add-line:vertical, 
+            QScrollBar::sub-line:vertical {
+                background: #FFA066;
+                height: 6px;
+                subcontrol-origin: margin;
+                subcontrol-position: top;
+            }
+    
+            QScrollBar::add-page:vertical, 
+            QScrollBar::sub-page:vertical {
+                background: #FFA066;
+            }
+    
+            QScrollBar:horizontal {
+                border: none;
+                background: #FFA066;
+                height: 12px;
+                margin: 0;
+                border-radius: 6px;
+            }
+    
+            QScrollBar::handle:horizontal {
+                background: #FF8C42;
+                min-width: 20px;
+                border-radius: 6px;
+                border: 1px solid #D66A2A;
+            }
+    
+            QScrollBar::handle:horizontal:hover {
+                background: #FF7A2F;
+            }
+    
+            QScrollBar::add-line:horizontal, 
+            QScrollBar::sub-line:horizontal {
+                background: #FFA066;
+                width: 6px;
+                subcontrol-origin: margin;
+                subcontrol-position: left;
+            }
+    
+            QScrollBar::add-page:horizontal, 
+            QScrollBar::sub-page:horizontal {
+                background: #FFA066;
+            }
+        """)
+        self.timetableView.setObjectName("timetableView")
+        self.verticalLayout.addWidget(self.timetableView)
+        self.newLineButton = QtWidgets.QPushButton(self)
+        self.newLineButton.setStyleSheet(BUTTONSTYLESHEET)
+        self.newLineButton.setObjectName("newLineButton")
+        self.verticalLayout.addWidget(self.newLineButton)
+        self.deleteLayout = QtWidgets.QHBoxLayout()
+        self.deleteLayout.setObjectName("deleteLayout")
+        self.deleteIndex = QtWidgets.QSpinBox(self)
+        self.deleteIndex.setValue(1)
+        self.deleteIndex.setMinimum(1)
+        self.deleteIndex.setStyleSheet("""
+            QSpinBox, 
+            QSpinBox::down-button,
+            QSpinBox::up-button {
+                background-color:rgb(255, 166, 103);
                 border: 0;
                 margin: 0;
-                border-radius: 5;
-                color: white;
+                border-radius: 3;
+                color: black;
+                padding: 3;
+                border-style: solid;
+                border-width: 1.5px;
+                border-color: rgb(255, 133, 62);
             }
-            QPushButton:hover {
-                background-color:rgb(244, 81, 0);
+            QSpinBox::up-button:hover, QSpinBox::down-button:hover {
+                background-color: rgb(244, 81, 0);
+            }
+            QSpinBox::up-arrow {
+                image: url(resources/plus.svg);
+                width: 12px;
+                height: 12px;
+            }
+            QSpinBox::down-arrow {
+                image: url(resources/minus.svg);
+                width: 12px;
+                height: 12px;
             }
         """)
-        self.footer.addWidget(self.updateButton)
-        self.footer.addWidget(self.editButton)
-        self.tableLayout.addLayout(self.footer)
-        self.verticalLayout_2.addLayout(self.tableLayout)
+        self.deleteIndex.setObjectName("deleteIndex")
+        self.deleteLayout.addWidget(self.deleteIndex)
+        self.deleteButton = QtWidgets.QPushButton(self)
+        self.deleteButton.setStyleSheet(BUTTONSTYLESHEET)
+        self.deleteButton.setObjectName("deleteButton")
+        self.deleteLayout.addWidget(self.deleteButton)
+        self.deleteButton.clicked.connect(lambda: self.deleteLine(self.deleteIndex.value()))
+        self.verticalLayout.addLayout(self.deleteLayout)
+        self.saveButton = QtWidgets.QPushButton(self)
+        self.saveButton.setStyleSheet(BUTTONSTYLESHEET)
+        self.saveButton.setObjectName("saveButton")
+        self.verticalLayout.addWidget(self.saveButton)
         self.retranslateUi(timetable)
         QtCore.QMetaObject.connectSlotsByName(timetable)
+        self.con = sqlite3.connect(FILE)
+        self.removeEmpty()
+        self.modified = {}
+        self.dayChoose.currentTextChanged.connect(self.update)
+        self.timetableView.itemChanged.connect(self.boxChanged)
+        self.saveButton.clicked.connect(self.saver)
+        self.newLineButton.clicked.connect(self.newLine)
+        self.timetableTitle.setFont(self.bigFont)
+        self.saveButton.setFont(self.bigFont)
+        self.deleteButton.setFont(self.bigFont)
+        self.newLineButton.setFont(self.bigFont)
+        self.dayChoose.setFont(self.font)
+        self.update()
 
+    def removeEmpty(self):
+        cur = self.con.cursor()
+        cur.execute("DELETE FROM timetable WHERE lessonNum = '' "
+                    "AND lessonName = '' AND lessonStarts = '' "
+                    "AND lessonEnds = '' AND place = '' AND teacher = ''").fetchall()
+        self.con.commit()
+        self.update()
+
+    def update(self):
+        cur = self.con.cursor()
+        currentDay = self.dayChoose.currentIndex()
+        result = cur.execute(f"SELECT lessonNum, lessonName, lessonStarts, lessonEnds, place, teacher FROM"
+                             f" timetable WHERE weekDay = {currentDay}").fetchall()
+        self.timetableView.setRowCount(len(result))
+        self.timetableView.setColumnCount(len(result[0]))
+        self.deleteIndex.setMaximum(len(result))
+        self.timetableView.setHorizontalHeaderLabels(LABELS)
+        self.timetableView.setColumnWidth(0, 20)
+        self.timetableView.setColumnWidth(1, 145)
+        self.timetableView.setColumnWidth(2, 145)
+        self.timetableView.setColumnWidth(3, 145)
+        self.timetableView.setColumnWidth(4, 145)
+        self.timetableView.setColumnWidth(5, 145)
+        self.timetableView.setFont(self.font)
+        for i, elem in enumerate(result):
+            for j, val in enumerate(elem):
+                self.timetableView.setItem(i, j, QtWidgets.QTableWidgetItem(str(val)))
+        self.modified = {}
+
+    def boxChanged(self, item):
+        self.modified[(item.column(), item.row())] = item.text()
+
+    def printError(self, errorText):
+        errorBox = QtWidgets.QMessageBox()
+        errorBox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+        errorBox.setWindowIcon(QtGui.QIcon('icon.ico'))
+        errorBox.setWindowTitle("Ошибка формата данных")
+        errorBox.setText(errorText)
+        errorBox.setFont(self.font)
+        errorBox.exec()
+
+    def checker(self, type, data):
+        if type == "lessonNum":
+            values = []
+            columnIndex = 0
+            for row in range(self.timetableView.rowCount()):
+                item = self.timetableView.item(row, columnIndex)
+                if item is not None:
+                    values.append(item.text())
+            indexes = {}
+            for i in values:
+                if i == '':
+                    continue
+                if i not in indexes.keys():
+                    indexes[i] = 1
+                else:
+                    indexes[i] += 1
+            if max(list(indexes.values())) > 1:
+                errorText = (f"В расписании не может существовать 2 урока, с одинаковым номером ({data})."
+                             f" Данные не были записаны в базу, вы можете ввести их заново")
+                self.printError(errorText)
+                return False
+        elif type == "lessonStarts" or type == "lessonEnds":
+            errorText = (f"Время должно быть в формате \"HH:MM\". "
+                         f"Вы ввели: \"{data}\". Данные не были записаны в базу, вы можете ввести их заново")
+            parts = data.split(":")
+            if len(parts) != 2:
+                self.printError(errorText)
+                return False
+            hh, mm = parts
+            if not (hh.isdigit() and mm.isdigit()):
+                self.printError(errorText)
+                return False
+            hh, mm = int(hh), int(mm)
+            if 0 <= hh <= 23 and 0 <= mm <= 59:
+                pass
+            else:
+                errorText = (f"Часы должны быть в интервале 0 <= HH <= 23, а минуты - 0 <= MM <= 59 "
+                         f"Вы ввели: \"{data}\". Данные не были записаны в базу, вы можете ввести их заново")
+                self.printError(errorText)
+                return False
+        return True
+
+    def saver(self):
+        if self.modified:
+            cur = self.con.cursor()
+            for key, value in self.modified.items():
+                row = LABELSENG[LABELS[key[0]]]
+                col = key[1]
+                if self.checker(row, value):
+                    que = f"""
+                            UPDATE 
+                                timetable
+                            SET 
+                                {row} = "{value}"
+                            WHERE 
+                                id = (
+                                    SELECT id
+                                    FROM timetable
+                                    WHERE weekday = {self.dayChoose.currentIndex()}
+                                    ORDER BY id
+                                    LIMIT 1 OFFSET {col}
+                                )
+                            """
+                    cur.execute(que).fetchall()
+                    self.con.commit()
+            self.update()
+
+    def newLine(self):
+        cur = self.con.cursor()
+        cur.execute("INSERT INTO timetable (lessonNum, weekDay, "
+                    "lessonName, lessonStarts, lessonEnds,"
+                    f" place, teacher) VALUES ('', {self.dayChoose.currentIndex()}, '', '', '', '', '')").fetchall()
+        self.con.commit()
+        self.update()
+
+    def deleteLine(self, num):
+        cur = self.con.cursor()
+        cur.execute(f"""
+            DELETE FROM timetable
+            WHERE id = (
+                SELECT id
+                FROM timetable
+                WHERE weekday = {self.dayChoose.currentIndex()}
+                ORDER BY id
+                LIMIT 1 OFFSET {num - 1}
+            )
+        """).fetchall()
+        self.con.commit()
+        self.update()
 
     def retranslateUi(self, timetable):
         _translate = QtCore.QCoreApplication.translate
         timetable.setWindowTitle(_translate("timetable", "SCHelper — Расписание"))
-        self.topName.setText(_translate("timetable", "Расписание"))
-        for x in range(1, 7):
-            for k in range(1, 7):
-                getattr(self, f"D{x}lesson{k}").setText(timetableDATA[f"D{x}"][f"lesson{k}"])
-        self.day1Line1Name.setText(_translate("timetable", "Понедельник"))
-        self.day2Line1Name.setText(_translate("timetable", "Вторник"))
-        self.day3Line1Name.setText(_translate("timetable", "Среда"))
-        self.day5Line2Name.setText(_translate("timetable", "Пятница"))
-        self.day6Line2Name.setText(_translate("timetable", "Суббота"))
-        self.day4Line2Name.setText(_translate("timetable", "Четверг"))
-        self.editButton.setText(_translate("timetable", "Редактировать"))
-        self.updateButton.setText(_translate("timetable", "Обновить"))
-
-
-    def update(self):
-        newTimetableDATA = read(FILE)
-        for x in range(1, 7):
-            for k in range(1, 7):
-                getattr(self, f"D{x}lesson{k}").setText(newTimetableDATA[f"D{x}"][f"lesson{k}"])
+        self.timetableTitle.setText(_translate("timetable", "Расписание"))
+        self.dayChoose.setItemText(0, _translate("timetable", "Понедельник"))
+        self.dayChoose.setItemText(1, _translate("timetable", "Вторник"))
+        self.dayChoose.setItemText(2, _translate("timetable", "Среда"))
+        self.dayChoose.setItemText(3, _translate("timetable", "Четверг"))
+        self.dayChoose.setItemText(4, _translate("timetable", "Пятница"))
+        self.dayChoose.setItemText(5, _translate("timetable", "Суббота"))
+        self.dayChoose.setItemText(6, _translate("timetable", "Воскресенье"))
+        self.newLineButton.setText(_translate("timetable", "Новая строка"))
+        self.deleteButton.setText(_translate("timetable", "Удалить строку"))
+        self.saveButton.setText(_translate("timetable", "Сохранить изменения"))

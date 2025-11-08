@@ -42,7 +42,7 @@ class Ui_about(object):
         about.setWindowIcon(QtGui.QIcon('icon.ico'))
         about.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0"
                             "             rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255));")
-        font = QFont(mainFont, 12)
+        font = QFont(mainFont, 14)
         paragrathFont = QFont(mainFont, 10)
         font.setBold(True)
         paragrathFont.setBold(True)
