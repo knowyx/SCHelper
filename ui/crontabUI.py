@@ -11,6 +11,16 @@ FILE = "resources/db.sqlite"
 
 class Ui_crontab(object):
     # класс окна планировщика задач
+    def errorPrint(self, text):
+        # печать ошибок
+        errorBox = QMessageBox()
+        errorBox.setIcon(QMessageBox.Icon.Critical)
+        errorBox.setWindowIcon(QtGui.QIcon('icon.ico'))
+        errorBox.setWindowTitle("Ошибка формата данных")
+        errorBox.setText(text)
+        errorBox.setFont(self.font)
+        errorBox.exec()
+
     def saver(self, name, givedData, taskContainer, taskLayout):
         # сохранение в БД новой записи
         try:
@@ -18,18 +28,19 @@ class Ui_crontab(object):
             day, month, year = map(int, dateSt.split('.'))
             hour, minute, second = map(int, timeStr.split(':'))
             timestamp = datetime(year, month, day, hour, minute, second).timestamp()
+            if timestamp < 0:
+                # вызов ошибки отрицательного времени
+                self.errorPrint(f"Дата не может быть раньше, чем 01.01.1970 3:0:0 UTC+3.00. "
+                                f"Вы ввели: \"{givedData}\". "
+                                f"Данные не были записаны в базу, вы можете ввести их заново")
+                return -1
             writer(FILE, "cron", ("name", "date"), (name, timestamp))
             self.update(taskContainer, taskLayout)
         except ValueError:
             # вызов ошибки формата данных
-            errorBox = QMessageBox()
-            errorBox.setIcon(QMessageBox.Icon.Critical)
-            errorBox.setWindowIcon(QtGui.QIcon('icon.ico'))
-            errorBox.setWindowTitle("Ошибка формата данных")
-            errorBox.setText(f"Дата и время должны быть в формате \"DD.MM.YYYY HH:MM:SS\". "
-                             f"Вы ввели: \"{givedData}\". Данные не были записаны в базу, вы можете ввести их заново")
-            errorBox.setFont(self.font)
-            errorBox.exec()
+            self.errorPrint(f"Дата и время должны быть в формате \"DD.MM.YYYY HH:MM:SS\". "
+                            f"Вы ввели: \"{givedData}\". "
+                            f"Данные не были записаны в базу, вы можете ввести их заново")
 
     def setupUi(self, crontab, mainFont):
         # верстка окна планировщика задач

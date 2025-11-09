@@ -191,9 +191,6 @@ class Ui_timetable(QtWidgets.QWidget):
                 border-width: 1.5px;
                 border-color: rgb(255, 133, 62);
             }
-            QSpinBox::up-button:hover, QSpinBox::down-button:hover {
-                background-color: rgb(244, 81, 0);
-            }
             QSpinBox::up-arrow {
                 image: url(resources/plus.svg);
                 width: 12px;
@@ -203,6 +200,17 @@ class Ui_timetable(QtWidgets.QWidget):
                 image: url(resources/minus.svg);
                 width: 12px;
                 height: 12px;
+            }
+            QSpinBox::down-button:{
+                subcontrol-origin: border;
+                subcontrol-position: bottom right;
+            }
+            QSpinBox::up-button:{
+                subcontrol-origin: border;
+                subcontrol-position: top right;
+            }
+            QSpinBox::up-button:hover, QSpinBox::down-button:hover {
+                background-color: rgb(244, 81, 0);
             }
         """)
         self.deleteIndex.setObjectName("deleteIndex")

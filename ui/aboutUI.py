@@ -27,12 +27,12 @@ VERFILE = "resources/ver"
 def getText(file, verfile):
     # функция получения текста описания программы из файла
     text = ''
-    with open(file) as f:
+    with open(file, encoding='UTF-8') as f:
         line = f.readline()
         while line:
             text += line
             line = f.readline()
-    with open(verfile) as f:
+    with open(verfile, encoding='UTF-8') as f:
         ver = f.readline()
     return text.format(ver=ver)
 
