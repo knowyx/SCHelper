@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
+# импорт библиотек и функций
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QGroupBox, QMessageBox
 from resources.dbWorker import read, delete, writer
 from datetime import datetime
 
+# константа, путь к файлу БД
 FILE = "resources/db.sqlite"
 
 
 class Ui_crontab(object):
+    # класс окна планировщика задач
     def saver(self, name, givedData, taskContainer, taskLayout):
+        # сохранение в БД новой записи
         try:
             dateSt, timeStr = givedData.split(' ')
             day, month, year = map(int, dateSt.split('.'))
@@ -17,6 +21,7 @@ class Ui_crontab(object):
             writer(FILE, "cron", ("name", "date"), (name, timestamp))
             self.update(taskContainer, taskLayout)
         except ValueError:
+            # вызов ошибки формата данных
             errorBox = QMessageBox()
             errorBox.setIcon(QMessageBox.Icon.Critical)
             errorBox.setWindowIcon(QtGui.QIcon('icon.ico'))
@@ -27,16 +32,17 @@ class Ui_crontab(object):
             errorBox.exec()
 
     def setupUi(self, crontab, mainFont):
+        # верстка окна планировщика задач
         crontab.setObjectName("crontab")
         crontab.resize(1000, 600)
         crontab.setMinimumSize(QtCore.QSize(800, 600))
         crontab.setWindowIcon(QtGui.QIcon('icon.ico'))
         crontab.setStyleSheet(
-            "background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0             rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255));")
+            "background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0"
+            "             rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255));")
+        # работа с размерами и фоновым цветом окна
         self.font = QtGui.QFont(mainFont, 10)
         self.bigFont = QtGui.QFont(mainFont, 14)
-        self.font.setBold(True)
-        self.bigFont.setBold(True)
         self.gridLayout = QtWidgets.QGridLayout(crontab)
         self.gridLayout.setObjectName("gridLayout")
         self.taskName = QtWidgets.QLineEdit(crontab)
@@ -53,6 +59,7 @@ class Ui_crontab(object):
         """)
         self.taskName.setObjectName("taskName")
         self.gridLayout.addWidget(self.taskName, 7, 0, 1, 1)
+        # поле ввода назвыания новой задачи
         self.footerButtons = QtWidgets.QHBoxLayout()
         self.footerButtons.setObjectName("footerButtons")
         self.saveButton = QtWidgets.QPushButton(crontab)
@@ -73,6 +80,7 @@ class Ui_crontab(object):
         self.saveButton.setObjectName("saveButton")
         self.footerButtons.addWidget(self.saveButton)
         self.gridLayout.addLayout(self.footerButtons, 9, 0, 1, 1)
+        # кнопка сохранения задачи и лейаут нижних кнопок
         self.taskCreationInfoBox = QtWidgets.QHBoxLayout()
         self.taskCreationInfoBox.setObjectName("taskCreationInfoBox")
         self.newTaskLabel = QtWidgets.QLabel(crontab)
@@ -88,6 +96,7 @@ class Ui_crontab(object):
         """)
         self.newTaskLabel.setObjectName("newTaskLabel")
         self.taskCreationInfoBox.addWidget(self.newTaskLabel)
+        # лейбл, обозначающий зону создания задачи
         self.taskDate = QtWidgets.QLineEdit(crontab)
         self.taskDate.setStyleSheet("""
             background-color:rgb(255, 166, 103);
@@ -103,6 +112,7 @@ class Ui_crontab(object):
         self.taskDate.setObjectName("taskDate")
         self.taskCreationInfoBox.addWidget(self.taskDate)
         self.gridLayout.addLayout(self.taskCreationInfoBox, 2, 0, 1, 1)
+        # поле ввода даты новой задачи
         taskScroll = QtWidgets.QScrollArea(crontab)
         taskScroll.setWidgetResizable(True)
         taskContainer = QtWidgets.QWidget()
@@ -185,6 +195,7 @@ class Ui_crontab(object):
         """)
         taskScroll.verticalScrollBar().setStyleSheet(taskScroll.styleSheet())
         taskScroll.horizontalScrollBar().setStyleSheet(taskScroll.styleSheet())
+        # виджет и зона прокрутки пула задач
         self.cronLabel = QtWidgets.QLabel(crontab)
         self.cronLabel.setStyleSheet("""
             background-color: rgb(255, 133, 62);
@@ -198,6 +209,7 @@ class Ui_crontab(object):
         """)
         self.cronLabel.setObjectName("cronLabel")
         self.gridLayout.addWidget(self.cronLabel, 0, 0, 1, 1)
+        # лейбл названия окна
         self.saveButton.clicked.connect(lambda: self.saver(self.taskName.text(), self.taskDate.text(),
                                                            taskContainer, taskLayout))
         self.retranslateUi(crontab)
@@ -208,39 +220,45 @@ class Ui_crontab(object):
         self.taskName.setFont(self.font)
         self.taskDate.setFont(self.font)
         self.saveButton.setFont(self.bigFont)
+        # подключение шрифтов и функции, задающий текст элементам
 
     def retranslateUi(self, crontab):
+        # функция, задающая текст элементам
         _translate = QtCore.QCoreApplication.translate
         crontab.setWindowTitle(_translate("crontab", "SCHelper — Планировщик задач"))
         self.taskName.setPlaceholderText(_translate("crontab", "Название"))
         self.saveButton.setText(_translate("crontab", "Сохранить"))
         self.newTaskLabel.setText(_translate("crontab", "Создать новую задачу"))
-        self.taskDate.setPlaceholderText(_translate("crontab", "Дата и время в формате \"DD.MM.YYYY HH:MM:SS\""))
+        self.taskDate.setPlaceholderText(_translate("crontab", "Дата и время в"
+                                                               " формате \"DD.MM.YYYY HH:MM:SS\""))
         self.cronLabel.setText(_translate("crontab", "Планировщик задач"))
 
     def delAndUpdate(self, num, taskContainer, taskLayout):
+        # функция, которая удаляет элмент, после этого идет обновление пула задач
         delete(FILE, "cron", num)
         for task in taskContainer.findChildren(QGroupBox):
             task.deleteLater()
         self.update(taskContainer, taskLayout)
 
     def update(self, taskContainer, taskLayout):
+        # обновление пула задач
         tasksDATA = read(FILE, "cron", "*")
         tasksDATA.sort(key=lambda x: x[1])
         tasksDATA.sort(key=lambda x: x[2])
         for task in taskContainer.findChildren(QGroupBox):
             task.deleteLater()
+        # удаление старых задач и сортировка новых
         for num, name, date in tasksDATA:
+            # создание отдельного элемента для каждой задачи
             setattr(self, f"task{num}", QtWidgets.QGroupBox(taskContainer))
-            getattr(self, f"task{num}").setStyleSheet(
-                """
+            getattr(self, f"task{num}").setStyleSheet("""
                     background-color:rgb(255, 166, 103);
                     padding: 3;
                     border-style: solid;
                     border-width: 1.5px;
                     border-color: rgb(255, 133, 62);
                     color: black;
-                """)
+            """)
             getattr(self, f"task{num}").setMaximumSize(16777215, 100)
             taskLayout.addWidget(getattr(self, f"task{num}"))
             setattr(self, f"gridLayoutTask{num}", QtWidgets.QGridLayout(getattr(self, f"task{num}")))

@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-# костанты и импорты
+# импорт библиотек и функций
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
 from resources.csvWorker import read
 from random import randrange
 
+# константы
 FILE = "resources/exercises.csv"
-data = read(FILE)
+DATA = read(FILE)
 BOXSTYLESHEETS = """
             QWidget {
                 background-color:rgb(255, 166, 103);
@@ -39,11 +40,13 @@ BOXSTYLESHEETS = """
             QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
                 background: none;
             }      
-        """
+"""
 
 
 class Ui_exam(object):
+    # класс окна подготовки к экзаменам
     def setupUi(self, exam, mainFont):
+        # функция верски окна
         exam.setObjectName("exam")
         exam.resize(1000, 600)
         exam.setMinimumSize(QtCore.QSize(800, 600))
@@ -53,8 +56,7 @@ class Ui_exam(object):
                          rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255));
         """)
         font = QFont(mainFont, 14)
-        font.setBold(True)
-        # /\ работа с окошком, шрифтом
+        # работа с размерами окна, цветом, шрифтом
         self.mainGrid = QtWidgets.QGridLayout(exam)
         self.mainGrid.setObjectName("mainGrid")
         self.condBox = QtWidgets.QGroupBox(exam)
@@ -68,7 +70,7 @@ class Ui_exam(object):
         self.condition.setObjectName("condition")
         self.condLayout.addWidget(self.condition)
         self.mainGrid.addWidget(self.condBox, 2, 0, 1, 1)
-        # /\работа с главной сеткой и условием
+        # работа с главной сеткой и условием
         self.title = QtWidgets.QLabel(exam)
         self.title.setMaximumSize(QtCore.QSize(16777215, 25))
         self.title.setStyleSheet("""
@@ -83,7 +85,7 @@ class Ui_exam(object):
         """)
         self.title.setObjectName("title")
         self.mainGrid.addWidget(self.title, 1, 0, 1, 2)
-        # /\работа с верхне подписью
+        # работа с верхней подписью
         self.answerBox = QtWidgets.QGroupBox(exam)
         self.answerBox.setMaximumSize(QtCore.QSize(400, 16777215))
         self.answerBox.setStyleSheet(BOXSTYLESHEETS)
@@ -93,11 +95,11 @@ class Ui_exam(object):
         self.answerBox.setObjectName("answerBox")
         self.ansLayout = QtWidgets.QVBoxLayout(self.answerBox)
         self.ansLayout.setObjectName("ansLayout")
-        # /\лейаут для правой части программы (место для ввода ответа)
+        # лейаут для правой части программы (место для ввода ответа)
         self.header = QtWidgets.QLabel(self.answerBox)
         self.header.setObjectName("header")
         self.ansLayout.addWidget(self.header)
-        # /\подсказка для воода ответа
+        # подсказка для ввода ответа
         self.status = QtWidgets.QLabel(self.answerBox)
         self.header.setWordWrap(True)
         self.status.setAlignment(Qt.AlignmentFlag.AlignLeading
@@ -105,22 +107,22 @@ class Ui_exam(object):
         self.status.setObjectName("status")
         self.status.setWordWrap(True)
         self.ansLayout.addWidget(self.status)
-        # /\статус ответа
+        # статус ответа
         self.giveAns = QtWidgets.QLineEdit(self.answerBox)
         self.giveAns.setMaximumSize(QtCore.QSize(400, 16777215))
         self.giveAns.setObjectName("giveAns")
         self.ansLayout.addWidget(self.giveAns)
-        # /\ответ, данный пользователем
+        # ответ, данный пользователем
         self.checkButton = QtWidgets.QPushButton(self.answerBox)
         self.checkButton.setMaximumSize(QtCore.QSize(400, 16777215))
         self.checkButton.setObjectName("checkButton")
         self.ansLayout.addWidget(self.checkButton)
-        # /\кнопка проверки ответа
+        # кнопка проверки ответа
         self.nextButton = QtWidgets.QPushButton(self.answerBox)
         self.nextButton.setMaximumSize(QtCore.QSize(400, 16777215))
         self.nextButton.setObjectName("nextButton")
         self.ansLayout.addWidget(self.nextButton)
-        # /\кнопка следующей задачи
+        # кнопка следующей задачи
         self.mainGrid.addWidget(self.answerBox, 2, 1, 1, 1)
         self.retranslateUi(exam)
         QtCore.QMetaObject.connectSlotsByName(exam)
@@ -132,12 +134,14 @@ class Ui_exam(object):
         self.status.setFont(font)
         self.checkButton.setFont(font)
         self.nextButton.setFont(font)
-        # /\работа с сеткой, тексом на объектах и шрифтами
+        # работа с сеткой, тексом на объектах и шрифтами
 
     def retranslateUi(self, exam):
+        # функция установки текста на объекты
         _translate = QtCore.QCoreApplication.translate
         exam.setWindowTitle(_translate("exam", "SCHelper — Подготовка к экзаменам"))
-        self.condition.setText(_translate("exam", "Нажмите \"Следующая задача\" для генерации задачи"))
+        self.condition.setText(_translate("exam", "Нажмите \"Следующая задача\""
+                                                  " для генерации задачи"))
         self.title.setText(_translate("exam", "Подготовка к экзаменам"))
         self.header.setText(_translate("exam", "Ваш ответ: (в СИ, без едениц измерения)"))
         self.status.setText(_translate("exam", "Не дан"))
@@ -146,7 +150,7 @@ class Ui_exam(object):
 
     def update(self):
         # подстановка новой задачи
-        exercise = data[randrange(len(data))]
+        exercise = DATA[randrange(len(DATA))]
         self.condition.setText(exercise['condition'])
         self.status.setText('Не дан')
         self.ans = float(exercise['answer'])

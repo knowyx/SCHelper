@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+# импорт модуля работы с БД
 import sqlite3
 
 
 def read(base, table, *select):
+    # функция чтения из БД
     con = sqlite3.connect(base)
     cur = con.cursor()
     query = ''
@@ -13,12 +16,13 @@ def read(base, table, *select):
             {query}
         FROM
             {table}
-        """).fetchall()
+    """).fetchall()
     con.close()
     return result
 
 
 def delete(base, table, id):
+    # функция удаления из ДБ по id
     con = sqlite3.connect(base)
     cur = con.cursor()
     cur.execute(f"""
@@ -27,12 +31,13 @@ def delete(base, table, id):
                 {table}
         WHERE
             {table}.id = {id}
-        """).fetchall()
+    """).fetchall()
     con.commit()
     con.close()
 
 
 def writer(base, table, columns, data):
+    # функция записи в бд
     con = sqlite3.connect(base)
     cur = con.cursor()
     cur.execute(f"""
@@ -40,6 +45,6 @@ def writer(base, table, columns, data):
             {table} {columns}
         VALUES
             {data}
-        """).fetchall()
+    """).fetchall()
     con.commit()
     con.close()

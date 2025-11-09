@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
+# импорт библиотек
 from PyQt6 import QtCore, QtGui, QtWidgets
 import sqlite3
 
+# константы с путем к файлу, стилем и названиями столбцов таблицы
 FILE = "resources/db.sqlite"
 LABELS = ['№', 'Название урока', 'Время начала',
           'Время окончания', 'Место проведения', 'Ф.И.О Преподавателя']
@@ -17,11 +20,13 @@ BUTTONSTYLESHEET = """
             QPushButton:hover {
                 background-color:rgb(244, 81, 0);
             }
-        """
+"""
 
 
 class Ui_timetable(QtWidgets.QWidget):
+    # класс окна расписания
     def setupUi(self, timetable, mainFont):
+        # верстка окна распиания
         timetable.setObjectName("timetable")
         timetable.resize(1000, 600)
         timetable.setMinimumSize(QtCore.QSize(800, 600))
@@ -30,10 +35,9 @@ class Ui_timetable(QtWidgets.QWidget):
                                 " stop:0 rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255));")
         self.font = QtGui.QFont(mainFont, 10)
         self.bigFont = QtGui.QFont(mainFont, 14)
-        self.bigFont.setBold(True)
-        self.font.setBold(True)
         self.verticalLayout = QtWidgets.QVBoxLayout(timetable)
         self.verticalLayout.setObjectName("verticalLayout")
+        # работа со шрифтом, размерами и фоновым цветом окна
         self.timetableTitle = QtWidgets.QLabel(self)
         self.timetableTitle.setStyleSheet("""
             background-color: rgb(255, 133, 62);
@@ -47,6 +51,7 @@ class Ui_timetable(QtWidgets.QWidget):
         """)
         self.timetableTitle.setObjectName("timetableTitle")
         self.verticalLayout.addWidget(self.timetableTitle)
+        # название окна
         self.dayChoose = QtWidgets.QComboBox(self)
         self.dayChoose.setStyleSheet("""
             QComboBox, 
@@ -81,7 +86,9 @@ class Ui_timetable(QtWidgets.QWidget):
         self.dayChoose.addItem("")
         self.dayChoose.addItem("")
         self.dayChoose.addItem("")
+        self.dayChoose.addItem("")
         self.verticalLayout.addWidget(self.dayChoose)
+        # добавление пустых элементов и работа с выпадающим списком выбора дня
         self.timetableView = QtWidgets.QTableWidget(self)
         self.timetableView.setStyleSheet("""
             QTableWidget,
@@ -158,12 +165,15 @@ class Ui_timetable(QtWidgets.QWidget):
         """)
         self.timetableView.setObjectName("timetableView")
         self.verticalLayout.addWidget(self.timetableView)
+        # таблица просмотра расписания
         self.newLineButton = QtWidgets.QPushButton(self)
         self.newLineButton.setStyleSheet(BUTTONSTYLESHEET)
         self.newLineButton.setObjectName("newLineButton")
         self.verticalLayout.addWidget(self.newLineButton)
+        # кнопка создания пустой строки
         self.deleteLayout = QtWidgets.QHBoxLayout()
         self.deleteLayout.setObjectName("deleteLayout")
+        # создание лейаута для кнопки и индекса удаления строки
         self.deleteIndex = QtWidgets.QSpinBox(self)
         self.deleteIndex.setValue(1)
         self.deleteIndex.setMinimum(1)
@@ -197,16 +207,19 @@ class Ui_timetable(QtWidgets.QWidget):
         """)
         self.deleteIndex.setObjectName("deleteIndex")
         self.deleteLayout.addWidget(self.deleteIndex)
+        # поле для ввода индекса удаления строки
         self.deleteButton = QtWidgets.QPushButton(self)
         self.deleteButton.setStyleSheet(BUTTONSTYLESHEET)
         self.deleteButton.setObjectName("deleteButton")
         self.deleteLayout.addWidget(self.deleteButton)
         self.deleteButton.clicked.connect(lambda: self.deleteLine(self.deleteIndex.value()))
         self.verticalLayout.addLayout(self.deleteLayout)
+        # кнопка удаления строки
         self.saveButton = QtWidgets.QPushButton(self)
         self.saveButton.setStyleSheet(BUTTONSTYLESHEET)
         self.saveButton.setObjectName("saveButton")
         self.verticalLayout.addWidget(self.saveButton)
+        # кнопка сохранения изменений
         self.retranslateUi(timetable)
         QtCore.QMetaObject.connectSlotsByName(timetable)
         self.con = sqlite3.connect(FILE)
@@ -222,8 +235,11 @@ class Ui_timetable(QtWidgets.QWidget):
         self.newLineButton.setFont(self.bigFont)
         self.dayChoose.setFont(self.font)
         self.update()
+        # вызов функции установки текста на объекты, создание подключения к БД,
+        # установка шрифтов и вызов загрузки данных из БД
 
     def removeEmpty(self):
+        # функция удаления пустых строк при загрузке окна
         cur = self.con.cursor()
         cur.execute("DELETE FROM timetable WHERE lessonNum = '' "
                     "AND lessonName = '' AND lessonStarts = '' "
@@ -232,6 +248,7 @@ class Ui_timetable(QtWidgets.QWidget):
         self.update()
 
     def update(self):
+        # функция загрузки данных из БД и установки их в таблицу
         cur = self.con.cursor()
         currentDay = self.dayChoose.currentIndex()
         result = cur.execute(f"SELECT lessonNum, lessonName, lessonStarts, lessonEnds, place, teacher FROM"
@@ -244,6 +261,7 @@ class Ui_timetable(QtWidgets.QWidget):
                 for j, val in enumerate(elem):
                     self.timetableView.setItem(i, j, QtWidgets.QTableWidgetItem(str(val)))
         self.modified = {}
+        # расстановка данных и отчистка буфера обновлений
         self.timetableView.setHorizontalHeaderLabels(LABELS)
         self.timetableView.setColumnWidth(0, 20)
         self.timetableView.setColumnWidth(1, 145)
@@ -252,11 +270,14 @@ class Ui_timetable(QtWidgets.QWidget):
         self.timetableView.setColumnWidth(4, 145)
         self.timetableView.setColumnWidth(5, 145)
         self.timetableView.setFont(self.font)
+        # установка ширины, названия колонок и шрифта таблицы
 
     def boxChanged(self, item):
+        # функция записи координат и нового текста измененного объекта
         self.modified[(item.column(), item.row())] = item.text()
 
     def printError(self, errorText):
+        # функция печати ошибки формата данных
         errorBox = QtWidgets.QMessageBox()
         errorBox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
         errorBox.setWindowIcon(QtGui.QIcon('icon.ico'))
@@ -266,6 +287,7 @@ class Ui_timetable(QtWidgets.QWidget):
         errorBox.exec()
 
     def checker(self, type, data):
+        # функция проверки формата данных
         if type == "lessonNum":
             values = []
             columnIndex = 0
@@ -308,6 +330,7 @@ class Ui_timetable(QtWidgets.QWidget):
         return True
 
     def saver(self):
+        # функция записи успешно проверенных данных в бд
         if self.modified:
             cur = self.con.cursor()
             for key, value in self.modified.items():
@@ -333,6 +356,7 @@ class Ui_timetable(QtWidgets.QWidget):
             self.update()
 
     def newLine(self):
+        # функция создания новой пустой строки
         cur = self.con.cursor()
         cur.execute("INSERT INTO timetable (lessonNum, weekDay, "
                     "lessonName, lessonStarts, lessonEnds,"
@@ -341,6 +365,7 @@ class Ui_timetable(QtWidgets.QWidget):
         self.update()
 
     def deleteLine(self, num):
+        # функция удаления нужной строки
         cur = self.con.cursor()
         cur.execute(f"""
             DELETE FROM timetable
@@ -356,6 +381,7 @@ class Ui_timetable(QtWidgets.QWidget):
         self.update()
 
     def retranslateUi(self, timetable):
+        # функция установки текста на объекты
         _translate = QtCore.QCoreApplication.translate
         timetable.setWindowTitle(_translate("timetable", "SCHelper — Расписание"))
         self.timetableTitle.setText(_translate("timetable", "Расписание"))
@@ -365,7 +391,7 @@ class Ui_timetable(QtWidgets.QWidget):
         self.dayChoose.setItemText(3, _translate("timetable", "Четверг"))
         self.dayChoose.setItemText(4, _translate("timetable", "Пятница"))
         self.dayChoose.setItemText(5, _translate("timetable", "Суббота"))
-        self.dayChoose.addItem("Воскресенье")
+        self.dayChoose.setItemText(6, _translate("timetable", "Воскресенье"))
         self.newLineButton.setText(_translate("timetable", "Новая строка"))
         self.deleteButton.setText(_translate("timetable", "Удалить строку"))
         self.saveButton.setText(_translate("timetable", "Сохранить изменения"))

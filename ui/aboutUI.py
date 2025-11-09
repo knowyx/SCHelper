@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-# импорт и константы
+# импорт библиотек
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
 import webbrowser
 
+# константы стиля и пути к файлам
 TOPBUTTONSSTYLE = """
             QPushButton {
                 background-color: rgb(255, 133, 62);
@@ -18,12 +19,13 @@ TOPBUTTONSSTYLE = """
             QPushButton:hover { 
                 background-color:rgb(244, 81, 0);
             }
-        """
+"""
 FILE = "resources/aboutText.txt"
 VERFILE = "resources/ver"
 
 
 def getText(file, verfile):
+    # функция получения текста описания программы из файла
     text = ''
     with open(file) as f:
         line = f.readline()
@@ -36,7 +38,9 @@ def getText(file, verfile):
 
 
 class Ui_about(object):
+    # класс окна справки
     def setupUi(self, about, mainFont):
+        # функция верстки окна справки
         about.setObjectName("about")
         about.resize(1000, 600)
         about.setMinimumSize(QtCore.QSize(800, 600))
@@ -45,9 +49,7 @@ class Ui_about(object):
                             "             rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255));")
         font = QFont(mainFont, 14)
         paragrathFont = QFont(mainFont, 10)
-        font.setBold(True)
-        paragrathFont.setBold(True)
-        # /\работа с окном
+        # работа с размерами окна, фоновым цветом и шрифтом
         self.verticalLayout = QtWidgets.QVBoxLayout(about)
         self.verticalLayout.setObjectName("verticalLayout")
         self.aboutHeader = QtWidgets.QLabel(about)
@@ -59,14 +61,13 @@ class Ui_about(object):
             border-radius: 5;
             color: black;
             padding-left: 5px;
-            padding-top: 2px;
             padding-bottom: 2px;
         """)
         self.aboutHeader.setAlignment(Qt.AlignmentFlag.AlignLeading |
                                       Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         self.aboutHeader.setObjectName("aboutHeader")
         self.verticalLayout.addWidget(self.aboutHeader)
-        # /\хедер виджита
+        # название окна справки
         self.infoBox = QtWidgets.QGroupBox(about)
         self.infoBox.setStyleSheet("background-color: none; border: none;")
         self.infoBox.setObjectName("infoBox")
@@ -88,26 +89,26 @@ class Ui_about(object):
         self.projectInfo.setObjectName("projectInfo")
         self.verticalLayout_2.addWidget(self.projectInfo)
         self.verticalLayout.addWidget(self.infoBox)
-        # /\блок основной информации
+        # блок основной информации
         self.gitButton = QtWidgets.QPushButton(about)
         self.gitButton.setMinimumSize(QtCore.QSize(0, 50))
         self.gitButton.setStyleSheet(TOPBUTTONSSTYLE)
         self.gitButton.setObjectName("gitButton")
         self.verticalLayout.addWidget(self.gitButton)
-        # /\кнопка ссылки на гит
+        # кнопка ссылки на гит
         self.lyceumWebButton = QtWidgets.QPushButton(about)
         self.lyceumWebButton.setMinimumSize(QtCore.QSize(0, 50))
         self.lyceumWebButton.setStyleSheet(TOPBUTTONSSTYLE)
         self.lyceumWebButton.setObjectName("lyceumWebButton")
         self.verticalLayout.addWidget(self.lyceumWebButton)
-        # /\ссылка на сайт лицея
+        # ссылка на сайт лицея
         self.contactButtons = QtWidgets.QGroupBox(about)
         self.contactButtons.setMaximumSize(QtCore.QSize(16777215, 70))
         self.contactButtons.setStyleSheet("background-color: none; border: none;")
         self.contactButtons.setObjectName("contactsButton")
         self.contactsLayout = QtWidgets.QHBoxLayout(self.contactButtons)
         self.contactsLayout.setObjectName("contactsLayout")
-        # /\лейаут для кнопок контактов
+        # лейаут для кнопок контактов
         self.telegramButton = QtWidgets.QPushButton(self.contactButtons)
         self.telegramButton.setMinimumSize(QtCore.QSize(0, 50))
         self.telegramButton.setStyleSheet("""
@@ -125,7 +126,7 @@ class Ui_about(object):
         """)
         self.telegramButton.setObjectName("telegramButton")
         self.contactsLayout.addWidget(self.telegramButton)
-        # /\кнопка связи в телеграм
+        # кнопка связи в телеграм
         self.mailtoButton = QtWidgets.QPushButton(self.contactButtons)
         self.mailtoButton.setMinimumSize(QtCore.QSize(0, 50))
         self.mailtoButton.setStyleSheet("""
@@ -142,15 +143,15 @@ class Ui_about(object):
             }      
         """)
         self.mailtoButton.setObjectName("mailtoButton")
-        # /\кнопка связи по почте
+        # кнопка связи по почте
         self.contactsLayout.addWidget(self.mailtoButton)
         self.verticalLayout.addWidget(self.contactButtons)
-        # /\работа с лейаутами
+        # работа с лейаутами
         self.gitButton.clicked.connect(lambda: webbrowser.open('https://github.com/knowyx/SCHelper'))
         self.lyceumWebButton.clicked.connect(lambda: webbrowser.open('http://www.kirov.spb.ru/sc/393/index.php'))
         self.telegramButton.clicked.connect(lambda: webbrowser.open('https://t.me/knowyx'))
         self.mailtoButton.clicked.connect(lambda: webbrowser.open('mailto:knowyx@gmail.com'))
-        # /\назначение ссылок на кнопки
+        # назначение ссылок на кнопки
         self.retranslateUi(about)
         QtCore.QMetaObject.connectSlotsByName(about)
         self.aboutHeader.setFont(font)
@@ -159,9 +160,10 @@ class Ui_about(object):
         self.lyceumWebButton.setFont(font)
         self.telegramButton.setFont(font)
         self.mailtoButton.setFont(font)
-        # /\установка шрифтов и текста на элементы
+        # установка шрифтов и вызов функции установки текста на элементы
 
     def retranslateUi(self, about):
+        # функция установки текста на элементы
         _translate = QtCore.QCoreApplication.translate
         about.setWindowTitle(_translate("about", "SCHelper — Справка"))
         self.aboutHeader.setText(_translate("about", "Справка"))
