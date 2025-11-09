@@ -29,7 +29,7 @@ class Ui_crontab(object):
             hour, minute, second = map(int, timeStr.split(':'))
             timestamp = datetime(year, month, day, hour, minute, second).timestamp()
             if timestamp < 0:
-                # вызов ошибки отрицательного времени
+                # вызов ошибки отрицательного времени (работает только на Linux)
                 self.errorPrint(f"Дата не может быть раньше, чем 01.01.1970 3:0:0 UTC+3.00. "
                                 f"Вы ввели: \"{givedData}\". "
                                 f"Данные не были записаны в базу, вы можете ввести их заново")
@@ -41,6 +41,12 @@ class Ui_crontab(object):
             self.errorPrint(f"Дата и время должны быть в формате \"DD.MM.YYYY HH:MM:SS\". "
                             f"Вы ввели: \"{givedData}\". "
                             f"Данные не были записаны в базу, вы можете ввести их заново")
+        except OSError:
+            # вызов ошибки отрицательного времени (работает только на Windows)
+            self.errorPrint(f"Дата не может быть раньше, чем 01.01.1970 3:0:0 UTC+3.00. "
+                            f"Вы ввели: \"{givedData}\". "
+                            f"Данные не были записаны в базу, вы можете ввести их заново")
+            
 
     def setupUi(self, crontab, mainFont):
         # верстка окна планировщика задач
