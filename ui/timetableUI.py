@@ -300,9 +300,17 @@ class Ui_timetable(QtWidgets.QWidget):
         errorBox.setFont(self.font)
         errorBox.exec()
 
-    def checker(self, type, data):
+    def checker(self, col, data):
         # функция проверки формата данных
-        if type == "lessonNum":
+        if col == "lessonNum":
+            try:
+                data = int(data)
+            except ValueError:
+                errorText = (f"Данные в столбце \"№\" должны быть целочисленными. "
+                             f"Введенное значение: \"{data}\". "
+                             f" Данные не были записаны в базу, вы можете ввести их заново")
+                self.printError(errorText)
+                return False
             values = []
             columnIndex = 0
             for row in range(self.timetableView.rowCount()):
@@ -322,7 +330,7 @@ class Ui_timetable(QtWidgets.QWidget):
                              f" Данные не были записаны в базу, вы можете ввести их заново")
                 self.printError(errorText)
                 return False
-        elif type == "lessonStarts" or type == "lessonEnds":
+        elif col == "lessonStarts" or col == "lessonEnds":
             errorText = (f"Время должно быть в формате \"HH:MM\". "
                          f"Вы ввели: \"{data}\". Данные не были записаны в базу, вы можете ввести их заново")
             parts = data.split(":")
