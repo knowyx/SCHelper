@@ -3,6 +3,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QGroupBox, QMessageBox
 from resources.dbWorker import read, delete, writer
 from datetime import datetime
+
 FILE = "resources/db.sqlite"
 
 
@@ -25,13 +26,13 @@ class Ui_crontab(object):
             errorBox.setFont(self.font)
             errorBox.exec()
 
-
     def setupUi(self, crontab, mainFont):
         crontab.setObjectName("crontab")
         crontab.resize(1000, 600)
         crontab.setMinimumSize(QtCore.QSize(800, 600))
         crontab.setWindowIcon(QtGui.QIcon('icon.ico'))
-        crontab.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0             rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255));")
+        crontab.setStyleSheet(
+            "background-color:qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0             rgba(255, 117, 83, 255), stop:1 rgba(255, 255, 255, 255));")
         self.font = QtGui.QFont(mainFont, 10)
         self.bigFont = QtGui.QFont(mainFont, 14)
         self.font.setBold(True)
@@ -113,74 +114,74 @@ class Ui_crontab(object):
             padding: 3;
         """)
         taskScroll.setStyleSheet("""
-        QScrollArea {
-            border-style: solid;
-            border-width: 1.5px;
-            border-color: rgb(255, 133, 62);
-        }
-        QScrollBar:vertical {
-            border: none;
-            background: #FFA066;
-            width: 12px;
-            margin: 0;
-            border-radius: 6px;
-        }
-
-        QScrollBar::handle:vertical {
-            background: #FF8C42;
-            min-height: 20px;
-            border-radius: 6px;
-            border: 2px solid #D66A2A;
-        }
-
-        QScrollBar::handle:vertical:hover {
-            background: #FF7A2F;
-        }
-
-        QScrollBar::add-line:vertical, 
-        QScrollBar::sub-line:vertical {
-            background: #FFA066;
-            height: 6px;
-            subcontrol-origin: margin;
-            subcontrol-position: top;
-        }
-
-        QScrollBar::add-page:vertical, 
-        QScrollBar::sub-page:vertical {
-            background: #FFA066;
-        }
-
-        QScrollBar:horizontal {
-            border: none;
-            background: #FFA066;
-            height: 12px;
-            margin: 0;
-            border-radius: 6px;
-        }
-
-        QScrollBar::handle:horizontal {
-            background: #FF8C42;
-            min-width: 20px;
-            border-radius: 6px;
-            border: 1px solid #D66A2A;
-        }
-
-        QScrollBar::handle:horizontal:hover {
-            background: #FF7A2F;
-        }
-
-        QScrollBar::add-line:horizontal, 
-        QScrollBar::sub-line:horizontal {
-            background: #FFA066;
-            width: 6px;
-            subcontrol-origin: margin;
-            subcontrol-position: left;
-        }
-
-        QScrollBar::add-page:horizontal, 
-        QScrollBar::sub-page:horizontal {
-            background: #FFA066;
-        }
+            QScrollArea {
+                border-style: solid;
+                border-width: 1.5px;
+                border-color: rgb(255, 133, 62);
+            }
+            QScrollBar:vertical {
+                border: none;
+                background: #FFA066;
+                width: 12px;
+                margin: 0;
+                border-radius: 6px;
+            }
+    
+            QScrollBar::handle:vertical {
+                background: #FF8C42;
+                min-height: 20px;
+                border-radius: 6px;
+                border: 2px solid #D66A2A;
+            }
+    
+            QScrollBar::handle:vertical:hover {
+                background: #FF7A2F;
+            }
+    
+            QScrollBar::add-line:vertical, 
+            QScrollBar::sub-line:vertical {
+                background: #FFA066;
+                height: 6px;
+                subcontrol-origin: margin;
+                subcontrol-position: top;
+            }
+    
+            QScrollBar::add-page:vertical, 
+            QScrollBar::sub-page:vertical {
+                background: #FFA066;
+            }
+    
+            QScrollBar:horizontal {
+                border: none;
+                background: #FFA066;
+                height: 12px;
+                margin: 0;
+                border-radius: 6px;
+            }
+    
+            QScrollBar::handle:horizontal {
+                background: #FF8C42;
+                min-width: 20px;
+                border-radius: 6px;
+                border: 1px solid #D66A2A;
+            }
+    
+            QScrollBar::handle:horizontal:hover {
+                background: #FF7A2F;
+            }
+    
+            QScrollBar::add-line:horizontal, 
+            QScrollBar::sub-line:horizontal {
+                background: #FFA066;
+                width: 6px;
+                subcontrol-origin: margin;
+                subcontrol-position: left;
+            }
+    
+            QScrollBar::add-page:horizontal, 
+            QScrollBar::sub-page:horizontal {
+                background: #FFA066;
+            }
         """)
         taskScroll.verticalScrollBar().setStyleSheet(taskScroll.styleSheet())
         taskScroll.horizontalScrollBar().setStyleSheet(taskScroll.styleSheet())

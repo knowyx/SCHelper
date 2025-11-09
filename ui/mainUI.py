@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-#импорт и константы
+# импорт и константы
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 from ui.timetableUI import Ui_timetable
 from ui.crontabUI import Ui_crontab
 from ui.examUI import Ui_exam
 from ui.aboutUI import Ui_about
+
 BUTTONSTYLESHEET = """
             QPushButton {
                 background-color: rgb(255, 133, 62);
@@ -31,7 +32,7 @@ def getVer(name):
     return ver
 
 
-#Определение классов окон
+# Определение классов окон
 class timetableWindow(QtWidgets.QWidget):
     def __init__(self, font):
         super(timetableWindow, self).__init__()
@@ -44,6 +45,7 @@ class cronWindow(QtWidgets.QWidget):
         super(cronWindow, self).__init__()
         self.ui = Ui_crontab()
         self.ui.setupUi(self, font)
+
 
 class examWindow(QtWidgets.QWidget):
     def __init__(self, font):
@@ -77,7 +79,6 @@ class Ui_mainWindow(object):
             global aboutW
             aboutW = aboutWindow(font)
             aboutW.show()
-
 
     def setupUi(self, mainWindow, mainFont):
         mainWindow.setObjectName("mainWindow")
@@ -114,49 +115,49 @@ class Ui_mainWindow(object):
         self.name.setObjectName("name")
         self.logoNameLayout.addWidget(self.name)
         self.windowGrid.addLayout(self.logoNameLayout, 2, 0, 1, 1)
-        #/\работа с логотипом и названием программы
+        # /\работа с логотипом и названием программы
         self.corntabButt = QtWidgets.QPushButton(mainWindow)
         self.corntabButt.setMinimumSize(QtCore.QSize(150, 50))
         self.corntabButt.setMaximumSize(QtCore.QSize(16777215, 150))
-        self.corntabButt.clicked.connect(lambda: self.button_clicked(info = 'Планировщик задач', font=mainFont))
+        self.corntabButt.clicked.connect(lambda: self.button_clicked(info='Планировщик задач', font=mainFont))
         self.corntabButt.setStyleSheet(BUTTONSTYLESHEET)
         self.corntabButt.setObjectName("corntabButt")
         self.windowGrid.addWidget(self.corntabButt, 5, 0, 1, 1)
-        #/\кнопка планировщика
+        # /\кнопка планировщика
         self.timetableButt = QtWidgets.QPushButton(mainWindow)
         self.timetableButt.setMinimumSize(QtCore.QSize(150, 50))
         self.timetableButt.setMaximumSize(QtCore.QSize(16777215, 150))
-        self.timetableButt.clicked.connect(lambda: self.button_clicked(info = 'Расписание', font=mainFont))
+        self.timetableButt.clicked.connect(lambda: self.button_clicked(info='Расписание', font=mainFont))
         self.timetableButt.setStyleSheet(BUTTONSTYLESHEET)
         self.timetableButt.setObjectName("timetableButt")
         self.windowGrid.addWidget(self.timetableButt, 4, 0, 1, 1)
-        #/\кнопка расписания
+        # /\кнопка расписания
         self.aboutButt = QtWidgets.QPushButton(mainWindow)
         self.aboutButt.setMinimumSize(QtCore.QSize(150, 50))
         self.aboutButt.setMaximumSize(QtCore.QSize(16777215, 150))
         self.aboutButt.setBaseSize(QtCore.QSize(873, 497))
-        self.aboutButt.clicked.connect(lambda: self.button_clicked(info = 'Справка', font=mainFont))
+        self.aboutButt.clicked.connect(lambda: self.button_clicked(info='Справка', font=mainFont))
         self.aboutButt.setStyleSheet(BUTTONSTYLESHEET)
         self.aboutButt.setObjectName("aboutButt")
         self.windowGrid.addWidget(self.aboutButt, 7, 0, 1, 1)
-        #/\кнопка справки
+        # /\кнопка справки
         self.examButt = QtWidgets.QPushButton(mainWindow)
         self.examButt.setMinimumSize(QtCore.QSize(150, 50))
         self.examButt.setMaximumSize(QtCore.QSize(16777215, 150))
-        self.examButt.clicked.connect(lambda: self.button_clicked(info = 'Подготовка к экзаменам', font=mainFont))
+        self.examButt.clicked.connect(lambda: self.button_clicked(info='Подготовка к экзаменам', font=mainFont))
         self.examButt.setStyleSheet(BUTTONSTYLESHEET)
         self.examButt.setObjectName("examButt")
         self.windowGrid.addWidget(self.examButt, 6, 0, 1, 1)
         self.verticalLayout.addLayout(self.windowGrid)
-        #/\кнопка подготовки к экзаменам
+        # /\кнопка подготовки к экзаменам
         self.copyright = QtWidgets.QLabel(mainWindow)
         self.copyright.setMaximumSize(QtCore.QSize(16777215, 15))
         self.copyright.setStyleSheet(NAMEANDCOPYRIGHTSTYLESHEET)
-        self.copyright.setAlignment(QtCore.Qt.AlignmentFlag.AlignBottom|QtCore.Qt.AlignmentFlag.AlignRight|
+        self.copyright.setAlignment(QtCore.Qt.AlignmentFlag.AlignBottom | QtCore.Qt.AlignmentFlag.AlignRight |
                                     QtCore.Qt.AlignmentFlag.AlignTrailing)
         self.copyright.setObjectName("copyright")
         self.copyright.setFont(font)
-        #/\работа с копирайтом
+        # /\работа с копирайтом
         self.verticalLayout.addWidget(self.copyright)
         self.retranslateUi(mainWindow)
 

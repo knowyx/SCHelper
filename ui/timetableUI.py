@@ -1,10 +1,11 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 import sqlite3
+
 FILE = "resources/db.sqlite"
 LABELS = ['№', 'Название урока', 'Время начала',
           'Время окончания', 'Место проведения', 'Ф.И.О Преподавателя']
 LABELSENG = {'№': 'lessonNum', 'Название урока': 'lessonName', 'Время начала': 'lessonStarts',
-          'Время окончания': 'lessonEnds', 'Место проведения': 'place', 'Ф.И.О Преподавателя': 'teacher'}
+             'Время окончания': 'lessonEnds', 'Место проведения': 'place', 'Ф.И.О Преподавателя': 'teacher'}
 BUTTONSTYLESHEET = """
             QPushButton {
                 background-color: rgb(255, 133, 62);
@@ -301,7 +302,7 @@ class Ui_timetable(QtWidgets.QWidget):
                 pass
             else:
                 errorText = (f"Часы должны быть в интервале 0 <= HH <= 23, а минуты - 0 <= MM <= 59 "
-                         f"Вы ввели: \"{data}\". Данные не были записаны в базу, вы можете ввести их заново")
+                             f"Вы ввели: \"{data}\". Данные не были записаны в базу, вы можете ввести их заново")
                 self.printError(errorText)
                 return False
         return True

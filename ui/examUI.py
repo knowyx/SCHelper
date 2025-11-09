@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-#костанты и импорты
+# костанты и импорты
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont
 from resources.csvWorker import read
 from random import randrange
+
 FILE = "resources/exercises.csv"
 data = read(FILE)
 BOXSTYLESHEETS = """
@@ -53,7 +54,7 @@ class Ui_exam(object):
         """)
         font = QFont(mainFont, 14)
         font.setBold(True)
-        #/\ работа с окошком, шрифтом
+        # /\ работа с окошком, шрифтом
         self.mainGrid = QtWidgets.QGridLayout(exam)
         self.mainGrid.setObjectName("mainGrid")
         self.condBox = QtWidgets.QGroupBox(exam)
@@ -67,7 +68,7 @@ class Ui_exam(object):
         self.condition.setObjectName("condition")
         self.condLayout.addWidget(self.condition)
         self.mainGrid.addWidget(self.condBox, 2, 0, 1, 1)
-        #/\работа с главной сеткой и условием
+        # /\работа с главной сеткой и условием
         self.title = QtWidgets.QLabel(exam)
         self.title.setMaximumSize(QtCore.QSize(16777215, 25))
         self.title.setStyleSheet("""
@@ -82,44 +83,44 @@ class Ui_exam(object):
         """)
         self.title.setObjectName("title")
         self.mainGrid.addWidget(self.title, 1, 0, 1, 2)
-        #/\работа с верхне подписью
+        # /\работа с верхне подписью
         self.answerBox = QtWidgets.QGroupBox(exam)
         self.answerBox.setMaximumSize(QtCore.QSize(400, 16777215))
         self.answerBox.setStyleSheet(BOXSTYLESHEETS)
         self.answerBox.setTitle("")
         self.answerBox.setAlignment(Qt.AlignmentFlag.AlignLeading
-                                    |Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
+                                    | Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         self.answerBox.setObjectName("answerBox")
         self.ansLayout = QtWidgets.QVBoxLayout(self.answerBox)
         self.ansLayout.setObjectName("ansLayout")
-        #/\лейаут для правой части программы (место для ввода ответа)
+        # /\лейаут для правой части программы (место для ввода ответа)
         self.header = QtWidgets.QLabel(self.answerBox)
         self.header.setObjectName("header")
         self.ansLayout.addWidget(self.header)
-        #/\подсказка для воода ответа
+        # /\подсказка для воода ответа
         self.status = QtWidgets.QLabel(self.answerBox)
         self.header.setWordWrap(True)
         self.status.setAlignment(Qt.AlignmentFlag.AlignLeading
-                                 |Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+                                 | Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
         self.status.setObjectName("status")
         self.status.setWordWrap(True)
         self.ansLayout.addWidget(self.status)
-        #/\статус ответа
+        # /\статус ответа
         self.giveAns = QtWidgets.QLineEdit(self.answerBox)
         self.giveAns.setMaximumSize(QtCore.QSize(400, 16777215))
         self.giveAns.setObjectName("giveAns")
         self.ansLayout.addWidget(self.giveAns)
-        #/\ответ, данный пользователем
+        # /\ответ, данный пользователем
         self.checkButton = QtWidgets.QPushButton(self.answerBox)
         self.checkButton.setMaximumSize(QtCore.QSize(400, 16777215))
         self.checkButton.setObjectName("checkButton")
         self.ansLayout.addWidget(self.checkButton)
-        #/\кнопка проверки ответа
+        # /\кнопка проверки ответа
         self.nextButton = QtWidgets.QPushButton(self.answerBox)
         self.nextButton.setMaximumSize(QtCore.QSize(400, 16777215))
         self.nextButton.setObjectName("nextButton")
         self.ansLayout.addWidget(self.nextButton)
-        #/\кнопка следующей задачи
+        # /\кнопка следующей задачи
         self.mainGrid.addWidget(self.answerBox, 2, 1, 1, 1)
         self.retranslateUi(exam)
         QtCore.QMetaObject.connectSlotsByName(exam)
@@ -131,8 +132,7 @@ class Ui_exam(object):
         self.status.setFont(font)
         self.checkButton.setFont(font)
         self.nextButton.setFont(font)
-        #/\работа с сеткой, тексом на объектах и шрифтами
-        
+        # /\работа с сеткой, тексом на объектах и шрифтами
 
     def retranslateUi(self, exam):
         _translate = QtCore.QCoreApplication.translate
@@ -145,14 +145,14 @@ class Ui_exam(object):
         self.nextButton.setText(_translate("exam", "Следующая задача"))
 
     def update(self):
-        #подстановка новой задачи
+        # подстановка новой задачи
         exercise = data[randrange(len(data))]
         self.condition.setText(exercise['condition'])
         self.status.setText('Не дан')
         self.ans = float(exercise['answer'])
 
     def isCorrect(self, num):
-        #проаверка на то, является ли число цифрой
+        # проаверка на то, является ли число цифрой
         isDig = False
         dotIn = False
 
@@ -169,7 +169,7 @@ class Ui_exam(object):
         return isDig
 
     def check(self):
-        #сверка ответа
+        # сверка ответа
         try:
             if self.isCorrect(self.giveAns.text()):
                 if float(self.giveAns.text()) == self.ans:
