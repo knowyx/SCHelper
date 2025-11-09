@@ -16,6 +16,7 @@ BUTTONSTYLESHEET = """
                 margin: 0;
                 border-radius: 5;
                 color: black;
+                height: 37px;
             }
             QPushButton:hover {
                 background-color:rgb(244, 81, 0);
@@ -178,36 +179,41 @@ class Ui_timetable(QtWidgets.QWidget):
         self.deleteIndex.setValue(1)
         self.deleteIndex.setMinimum(1)
         self.deleteIndex.setStyleSheet("""
-            QSpinBox, 
+            QSpinBox,
             QSpinBox::down-button,
             QSpinBox::up-button {
                 background-color:rgb(255, 166, 103);
-                border: 0;
-                margin: 0;
                 border-radius: 3;
                 color: black;
-                padding: 3;
                 border-style: solid;
                 border-width: 1.5px;
                 border-color: rgb(255, 133, 62);
             }
+            QSpinBox {
+                padding-right: 20px; 
+                height: 30px;
+            }
+            QSpinBox::up-button {
+                subcontrol-origin: border;
+                subcontrol-position: top right;
+                width: 15px;
+                height: 15px;
+            }
+            QSpinBox::down-button {
+                subcontrol-origin: border;
+                subcontrol-position: bottom right;
+                width: 15px;
+                height: 15px;
+            }
             QSpinBox::up-arrow {
                 image: url(resources/plus.svg);
-                width: 12px;
-                height: 12px;
+                width: 15px;
+                height: 15px;
             }
             QSpinBox::down-arrow {
                 image: url(resources/minus.svg);
-                width: 12px;
-                height: 12px;
-            }
-            QSpinBox::down-button:{
-                subcontrol-origin: border;
-                subcontrol-position: bottom right;
-            }
-            QSpinBox::up-button:{
-                subcontrol-origin: border;
-                subcontrol-position: top right;
+                width: 15px;
+                height: 15px;
             }
             QSpinBox::up-button:hover, QSpinBox::down-button:hover {
                 background-color: rgb(244, 81, 0);
