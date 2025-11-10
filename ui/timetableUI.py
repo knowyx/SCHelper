@@ -268,6 +268,7 @@ class Ui_timetable(QtWidgets.QWidget):
         result = cur.execute(f"SELECT lessonNum, lessonName, lessonStarts, lessonEnds, place, teacher FROM"
                              f" timetable WHERE weekDay = {currentDay}").fetchall()
         self.timetableView.setRowCount(len(result))
+        self.deleteIndex.setMinimum(1)
         self.deleteIndex.setMaximum(len(result))
         if len(result) != 0:
             self.timetableView.setColumnCount(len(result[0]))
